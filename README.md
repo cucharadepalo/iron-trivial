@@ -2,11 +2,11 @@
 
 ![Iron Trivia Logo](https://i.imgur.com/k6NDOuC.png)
 
-Iron trivia is a multiplayer coding trivia game (currently in the early stages of the development process). 
+Iron trivia is a multiplayer coding trivia game (currently in the early stages of the development process).
 
 Iron trivia is my third project of the [Ironhack](https://www.ironhack.com) development bootcamp Madrid October 17.
 
-Please help me out with the questions of the game. Take a look at the examples below, and [fill this typeform to post a question](
+Please help me out with the questions of the game. Take a look at the examples below, and [fill this typeform to post a question](https://abrahamcastro.typeform.com/to/z6TH3k)
 
 ## Questions
 
