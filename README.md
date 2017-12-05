@@ -36,7 +36,7 @@ What's the HTML tag for a portion of a document whose content is only indirectly
 
 ![CSS Q](https://i.imgur.com/IVBB1wX.png)
 
-Wich CSS properties better describes this picture?
+Wich CSS properties better describe this picture?
 
 + `color: #CCC; font-size: 6rem; font-weight: bold`
 + `background-color: transparent; border: 2px solid #5555FF; text-align:right`
