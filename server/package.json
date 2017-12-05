@@ -1,0 +1,39 @@
+{
+  "name": "iron-trivia-server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "DEBUG=iron-trivia:* nodemon ./bin www"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.2",
+    "connect-mongo": "^2.0.0",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.9",
+    "express": "~4.15.5",
+    "mongoose": "^4.13.6",
+    "morgan": "~1.9.0",
+    "passport": "^0.4.0"
+  },
+  "description": "Coding trivia multiplayer game",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cucharadepalo/iron-trivial.git"
+  },
+  "keywords": [
+    "node",
+    "api",
+    "angular",
+    "trivia",
+    "games",
+    "ironhack"
+  ],
+  "author": "Abraham Castro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cucharadepalo/iron-trivial/issues"
+  },
+  "homepage": "https://github.com/cucharadepalo/iron-trivial#readme"
+}
