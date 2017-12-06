@@ -1,6 +1,6 @@
 # Iron Trivia
 
-![Iron Trivia Logo](https://i.imgur.com/k6NDOuC.png)
+![Iron Trivia Logo](https://i.imgur.com/YZD6BBq.png)
 
 Iron trivia is a multiplayer coding trivia game (currently in the early stages of the development process).
 
@@ -34,7 +34,7 @@ What's the HTML tag for a portion of a document whose content is only indirectly
 
 <span style="background-color:#DB007C;color:white;padding:5px">CSS</span>
 
-![CSS Q](https://i.imgur.com/IVBB1wX.png)
+![CSS Q](https://i.imgur.com/f7ssWLc.png)
 
 Wich CSS properties better describe this picture?
 
