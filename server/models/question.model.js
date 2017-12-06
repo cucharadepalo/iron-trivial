@@ -16,5 +16,15 @@ const questionSchema = new Schema({
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at"}
 });
+// pasar el método a las rutas (para poder hacerlo por categorías)
+questionSchema.statics.random = function(callback) {
+  this.count(function(err, count) {
+    if (err) {
+      return callback(err);
+    }
+    let rand = Math.floor(Math.random() * count);
+    this.findOne().skip(rand).exec(callback);
+  }.bind(this));
+};
 
 module.exports = mongoose.model('Question', questionSchema);
