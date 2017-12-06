@@ -125,11 +125,11 @@ what does this icon represent?
 
 <span style="background-color:#00D64E;color:white;padding:5px">CONCEPTS</span>
 
-What's the HTTP status code for a **permanent redirect**?
+What's the HTTP status code for a **No Content** response?
 
-+ 306
-+ 307
-+ 308
++ 201
++ 204
++ 301
 + 401
 
 ---
