@@ -6,7 +6,7 @@ const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
   questions: [{
-    question: { type: Schema.Types.ObjectId, ref: 'Question' },
+    _questionId: { type: Schema.Types.ObjectId, ref: 'Question' },
     category: { type: String },
     guessed: { type: Boolean }
   }],
@@ -17,7 +17,8 @@ const userSchema = new Schema({
     '4': Number,
     '5': Number,
     '6': Number
-  }
+  },
+  gamesPlayed: { type: Number}
 }, {
   timestamps: { createdAt: "created_at", updatedAt: "updated_at"}
 });

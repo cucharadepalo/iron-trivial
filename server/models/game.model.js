@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const gameSchema = new Schema({
-  participants = [{ type: Schema.Types.ObjectId, ref: 'User' }],
-  questions = [{ type: Schema.Types.ObjectId, ref: 'Question' }],
-  ranking = [{
+  name: { type: String, default: 'Iron-trivia game' },
+  participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
+  ranking: [{
     position: { type: Number },
     user: { type: String },
     points: { type: Number }
