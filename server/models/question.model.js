@@ -17,14 +17,14 @@ const questionSchema = new Schema({
 }, {
   timestamps: true,
   toJSON: {
-      transform: (doc, ret) => {
-          ret.id = ret._id;
-          delete ret.approved;
-          delete ret._id;
-          delete ret.__v;
-          delete ret.random;
-          return ret;
-      }
+    transform: (doc, ret) => {
+        ret.id = ret._id;
+        delete ret.approved;
+        delete ret._id;
+        delete ret.__v;
+        delete ret.random;
+        return ret;
+    }
   }
 });
 
