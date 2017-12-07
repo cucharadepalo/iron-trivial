@@ -13,7 +13,7 @@ const questionsRoutes = require('./routes/questions.routes');
 const usersRoutes = require('./routes/users.routes');
 const authRoutes = require('./routes/auth.routes');
 
-require('./config/database.config');
+const db = require('./config/database.config');
 require('./config/passport.config').setup(passport);
 const corsConfig = require('./config/cors.config');
 
@@ -35,7 +35,7 @@ app.use(session({
     maxAge: 2419200000
   },
   store: new MongoStore({
-    mongooseConnection: mongoose.connection
+    mongooseConnection: db
   })
 }));
 
