@@ -5,7 +5,6 @@ const CATEGORIES = require('./categories');
 
 const userSchema = new Schema({
   username: { type: String, required: true },
-  password: { type: String, required: true },
   isAdmin : { type: Boolean, default: false },
   githubId: { type: String },
   facebookId: { type: String },
@@ -15,20 +14,19 @@ const userSchema = new Schema({
     guessed: { type: Boolean }
   }],
   stats: {
-    '1': Number,
-    '2': Number,
-    '3': Number,
-    '4': Number,
-    '5': Number,
-    '6': Number
+    '1': { type: Number, required: true, default: 0 },
+    '2': { type: Number, required: true, default: 0 },
+    '3': { type: Number, required: true, default: 0 },
+    '4': { type: Number, required: true, default: 0 },
+    '5': { type: Number, required: true, default: 0 },
+    '6': { type: Number, required: true, default: 0 }
   },
-  gamesPlayed: { type: Number}
+  gamesPlayed: { type: Number, required: true, default: 0 }
 }, {
   timestamps: true,
   toJSON: {
     transform: (doc, ret) => {
         ret.id = ret._id;
-        delete ret.password;
         delete ret.questions;
         delete ret.isAdmin;
         delete ret._id;
