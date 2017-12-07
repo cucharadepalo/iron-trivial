@@ -1,10 +1,14 @@
 const mongoose = require("mongoose");
+const findOrCreate = require('mongoose-findorcreate');
 const Schema = mongoose.Schema;
 const CATEGORIES = require('./categories');
 
 const userSchema = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
+  isAdmin : { type: Boolean, default: false },
+  githubId: { type: String },
+  facebookId: { type: String },
   questions: [{
     _questionId: { type: Schema.Types.ObjectId, ref: 'Question' },
     category: { type: String },
@@ -20,7 +24,22 @@ const userSchema = new Schema({
   },
   gamesPlayed: { type: Number}
 }, {
-  timestamps: { createdAt: "created_at", updatedAt: "updated_at"}
+  timestamps: true,
+  toJSON: {
+    transform: (doc, ret) => {
+        ret.id = ret._id;
+        delete ret.password;
+        delete ret.questions;
+        delete ret.isAdmin;
+        delete ret._id;
+        delete ret.__v;
+        delete ret.githubId;
+        delete ret.facebookId;
+        return ret;
+    }
+  }
 });
+
+userSchema.plugin(findOrCreate);
 
 module.exports = mongoose.model("User", userSchema);
