@@ -13,6 +13,7 @@ const usersRoutes = require('./routes/users.routes');
 const authRoutes = require('./routes/auth.routes');
 
 require('./config/database.config');
+require('./config/passport.config').setup(passport);
 const corsConfig = require('./config/cors.config');
 
 const app = express();
@@ -23,6 +24,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    maxAge: 2419200000
+  },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  })
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api', questionsRoutes);
 app.use('/users', usersRoutes);
