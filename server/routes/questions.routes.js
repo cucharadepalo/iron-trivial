@@ -23,6 +23,18 @@ router.get('/game', (req, res) => {
     .catch(e => res.status(500).json({error:e.message}));
 });
 
+router.get('/questions', (req,res) => {
+  let filter = {};
+  req.query.approved ? filter['approved'] = req.query.approved : filter;
+  req.query.cat ? filter['category'] = req.query.cat : filter;
+  let options = { limit: 5 };
+  req.query.items ? options['limit'] = parseInt(req.query.items) : options;
+  req.query.skip ? options['skip'] = parseInt(req.query.skip) : options;
+  Question.find(filter, {}, options)
+    .then(questions => res.status(200).json(questions))
+    .catch(e => res.status(500).json({error:e.message}));
+});
+
 // To sincronize random Objects in the document collection
 router.get('/syncRandom', (req, res) => {
   Question.syncRandom(function (err, result) {
