@@ -2,8 +2,6 @@ require('dotenv').config();
 const User = require('../models/user.model');
 const Question = require('../models/question.model');
 const CATEGORIES = require('../models/categories');
-const bcrypt = require('bcrypt');
-const bcryptSalt = 10;
 
 const mongoose = require('mongoose');
 const db_url = process.env.DB_URL;
@@ -11,22 +9,9 @@ mongoose.connect(db_url, {useMongoClient: true})
   .then(() => console.log('Conectado a la db'))
   .catch(err => console.error(err));
 
-const password = process.env.ADMIN_PASS;
-const salt = bcrypt.genSaltSync(bcryptSalt);
-const hashPass = bcrypt.hashSync(password, salt);
-
 const admin = new User({
   username: 'admin',
-  password: hashPass,
-  questions : [],
-  stats: {
-    '1': 0,
-    '2': 0,
-    '3': 0,
-    '4': 0,
-    '5': 0,
-    '6': 0
-  }
+  isAdmin: true,
 });
 
 const questions = [
