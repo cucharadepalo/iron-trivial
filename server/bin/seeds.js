@@ -11,7 +11,7 @@ mongoose.connect(db_url, {useMongoClient: true})
   .then(() => console.log('Conectado a la db'))
   .catch(err => console.error(err));
 
-const password = process.env.ADMIN_PASSx;
+const password = process.env.ADMIN_PASS;
 const salt = bcrypt.genSaltSync(bcryptSalt);
 const hashPass = bcrypt.hashSync(password, salt);
 
