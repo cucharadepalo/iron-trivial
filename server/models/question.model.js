@@ -17,13 +17,13 @@ const questionSchema = new Schema({
   timestamps: { createdAt: "created_at", updatedAt: "updated_at"}
 });
 // pasar el método a las rutas (para poder hacerlo por categorías)
-questionSchema.statics.random = function(callback) {
+questionSchema.statics.random = function(cb) {
   this.count(function(err, count) {
     if (err) {
-      return callback(err);
+      return cb(err);
     }
     let rand = Math.floor(Math.random() * count);
-    this.findOne().skip(rand).exec(callback);
+    this.findOne().skip(rand).exec(cb);
   }.bind(this));
 };
 
