@@ -6,8 +6,8 @@ const CATEGORIES = require('./categories');
 const userSchema = new Schema({
   username: { type: String, required: true },
   isAdmin : { type: Boolean, default: false },
-  githubId: { type: String },
-  facebookId: { type: String },
+  githubId: { type: String, default: null },
+  facebookId: { type: String, default: null },
   questions: [{
     _questionId: { type: Schema.Types.ObjectId, ref: 'Question' },
     category: { type: String },
