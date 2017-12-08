@@ -6,6 +6,7 @@ const gameSchema = new Schema({
   name: { type: String, default: 'Iron-trivia game', required: true },
   participants: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
+  isFinished: { type: Boolean, default: false, required: true },
   ranking: [{
     position: { type: Number },
     user: { type: String },
