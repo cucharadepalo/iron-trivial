@@ -1,0 +1,11 @@
+/* Global stylesheet */
+
+@import 'scss/global';
+
+body {
+  background: $white;
+  color: $text-color;
+  margin: 2rem;
+  padding: 2rem;
+  font: 20px/1.5 'Roboto','Helvetica Neue', sans-serif;
+}
