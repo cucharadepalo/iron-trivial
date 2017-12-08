@@ -27,7 +27,7 @@ const userSchema = new Schema({
   toJSON: {
     transform: (doc, ret) => {
         ret.id = ret._id;
-        delete ret.questions;
+        //delete ret.questions;
         delete ret.isAdmin;
         delete ret._id;
         delete ret.__v;
