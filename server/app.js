@@ -10,6 +10,7 @@ const passport = require('passport');
 const cors = require('cors');
 
 const questionsRoutes = require('./routes/questions.routes');
+const gameRoutes = require('./routes/games.routes');
 const usersRoutes = require('./routes/users.routes');
 const authRoutes = require('./routes/auth.routes');
 
@@ -43,6 +44,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use('/api', questionsRoutes);
+app.use('/api', gameRoutes);
 app.use('/users', usersRoutes);
 app.use('/auth', authRoutes);
 
