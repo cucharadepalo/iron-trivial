@@ -9,12 +9,17 @@ router.get('/github/callback',
   (req, res, next) => {
     res.json(req.user);
   });
-router.get('/facebook', passport.authenticate('facebook'));
 
+router.get('/facebook', passport.authenticate('facebook'));
 router.get('/facebook/callback',
   passport.authenticate('facebook'),
   (req, res, next) => {
     res.json(req.user);
+  });
+
+router.get('/logout', (req, res, next) => {
+    req.logout();
+    res.status(200).json({ message: 'Success' });
   });
 
 module.exports = router;
