@@ -1,6 +1,6 @@
 import { User } from './../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter} from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable, Subject } from 'rxjs/Rx';
@@ -10,19 +10,13 @@ const CURRENT_USER_KEY = 'currentUser';
 
 @Injectable()
 export class AuthService {
-  private baseUrl = `${environment.apiUrl}/auth`;
-  private githubUrl = `${this.baseUrl}/github`;
-  private facebookUrl = `${this.baseUrl}/facebook`;
-  private authenticatedUrl = `${this.baseUrl}/user`;
   // private headers = new Headers({ 'Content-Type': 'application/json'});
   // private options = new RequestOptions({ headers: this.headers, withCredentials: false });
-
+  public loginEvent = new EventEmitter<User>();
   private user: User;
-  private userSubject: Subject<User>;
 
   constructor( private http: HttpClient ) {
-    this.user = JSON.parse(localStorage.getItem(CURRENT_USER_KEY));
-    this.userSubject = new Subject<User>();
+    this.isAuthenticated();
   }
 
   checkAuthentication() {
@@ -30,10 +24,10 @@ export class AuthService {
   }
 
   isAuthenticated() {
-    return this.http.get(this.authenticatedUrl)
+    return this.http.get(`${environment.apiUrl}/auth/user`)
       .subscribe(
         (user: User) => {
-          this.doAuthentication(user);
+          this.setUser(user);
         },
         (err) => {
           this.handleError
@@ -42,17 +36,24 @@ export class AuthService {
   }
 
   authGithub() {
-    window.location.href = this.githubUrl
+    window.location.href = `${environment.apiUrl}/auth/github`;
   }
 
   authFacebook() {
-    window.location.href = this.facebookUrl
+    window.location.href = `${environment.apiUrl}/auth/facebook`;
   }
 
-  private doAuthentication(user: User): User {
+  authLogout() {
+    console.log("Do Logout");
+    return this.http.get(`${environment.apiUrl}/auth/logout`)
+                    .map( res => this.setUser(null));
+  }
+
+  private setUser(user: User): User {
+    console.log("Setted user");
+    console.log(user);
     this.user = user;
-    localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(this.user))
-    this.userSubject.next(this.user);
+    this.loginEvent.emit(user);
     return this.user;
   }
 

@@ -16,21 +16,20 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    this.authService.isAuthenticated()
+
   }
 
   ngOnInit() {
-    console.log(this.authService.checkAuthentication())
-    if (this.authService.checkAuthentication()) {
+    this.authService.loginEvent.subscribe( user => {
       this.router.navigate(['home']);
-    }
+    });
   }
 
   githubLogin() {
-    this.authService.authGithub()
+    this.authService.authGithub();
   }
   facebookLogin() {
-    this.authService.authFacebook()
+    this.authService.authFacebook();
   }
 
 

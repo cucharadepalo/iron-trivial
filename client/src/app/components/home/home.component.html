@@ -1,6 +1,19 @@
-<p>
-  home works!
-</p>
-<div>
-  {{ user }}
+<h2>Home: Game selector</h2>
+<button (click)="logout()">Logout</button>
+<p>Join a game</p>
+<div *ngIf="openGames">
+  <ul>
+    <li *ngFor="let game of openGames" class="game-item">
+      <strong>{{ game.name }}</strong> | Number of Players: {{ game.participants.length }}
+      <button (click)="joinGame(game.id)">Join this game</button>
+    </li>
+  </ul>
 </div>
+<hr>
+<p>Or create a new one</p>
+<form>
+  <label>name
+    <input type="text" [(ngModel)]="gameName" name="gameName">
+  </label>
+  <button (click)="newGame(gameName)">New Game</button>
+</form>
