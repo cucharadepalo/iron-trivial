@@ -1,6 +1,6 @@
 import { User } from './../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable, Subject } from 'rxjs/Rx';
