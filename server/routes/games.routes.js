@@ -150,7 +150,7 @@ router.put('/game/finish/:id', (req, res, next) => {
 router.get('/gameuser', (req, res, next) => {
   const userId = req.query.id;
   if (userId) {
-    GameUser.findOne({ _userId: userId, status: 'open' || 'playing' })
+    GameUser.findOne({ _userId: userId, status: { $in: ['open', 'playing'] }}, {_gameId: 1})
       .then(doc => {
         if (doc) {
           res.status(200).json(doc);
