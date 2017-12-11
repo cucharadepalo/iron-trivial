@@ -11,4 +11,14 @@ export class GameService {
 
   constructor( private http: HttpClient ) { }
 
+  createGame(gameName: string){
+    return this.http.post(`${this.baseUrl}/game`, {gameName})
+  }
+  getOpenGames() {
+    return this.http.get(`${this.baseUrl}/games?open=true`)
+  }
+  joinGame(id) {
+    return this.http.put(`${this.baseUrl}/game/${id}`, {})
+  }
+
 }
