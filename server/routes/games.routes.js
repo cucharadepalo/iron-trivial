@@ -25,7 +25,7 @@ router.get('/game', (req, res, next) => {
 });
 // Single game creation
 router.post('/game', (req, res, next) => {
-  const userId = req.body.userId;
+  const userId = req.user.id;
   let promises = CATEGORIES.map(cat => {
     return Question.findRandom({ approved: true, category: cat }, '_id', { limit: 1 });
   });
@@ -66,7 +66,7 @@ router.get('/games', (req, res, next) => {
 // Game add participants
 router.put('/game/:id', (req, res, next) => {
   const id = req.params.id;
-  const participant = req.body.userId;
+  const participant = req.user.id;
   let pushP = {};
   participant ? pushP = {$push: { participants: participant }} : pushP;
   if (id) {
@@ -74,6 +74,7 @@ router.put('/game/:id', (req, res, next) => {
       Game.findByIdAndUpdate(id, pushP, { new: true }).populate('questions')
         .then(game => {
           if (game) {
+            console.log('participant added to the game');
             res.json(game);
             GameUser.create({ _gameId: game._id, _userId: participant });
           } else {
