@@ -1,3 +1,20 @@
-<p>
-  game works!
-</p>
+<h2>This is the game component</h2>
+<div *ngIf="game">
+  <h1>{{ game.name }}</h1>
+  <p>{{ game.id }}</p>
+  <dl>
+    <dt>Participants</dt>
+    <dl>{{ game.participants.length }}</dl>
+    <dt>Names</dt>
+    <dl>
+      <ul>
+        <li *ngFor="let p of game.participants">{{ p.username }}</li>
+      </ul>
+    </dl>
+    <dt>Questions</dt>
+    <dl>{{ game.questions.length }}</dl>
+  </dl>
+  <div *ngIf="game.creator == auth.user.id">
+    <button>START THE GAME</button>
+  </div>
+</div>

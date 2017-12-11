@@ -1,14 +1,17 @@
 <h2>Home: Game selector</h2>
 <button (click)="logout()">Logout</button>
-<p>Join a game</p>
-<div *ngIf="openGames">
+<div *ngIf="openGames; else noOpenGames">
+  <p>Join a game</p>
   <ul>
     <li *ngFor="let game of openGames" class="game-item">
-      <strong>{{ game.name }}</strong> | Number of Players: {{ game.participants.length }}
+      <a [routerLink]="['/game', game.id]"><strong>{{ game.name }}</strong></a> | Number of Players: {{ game.participants.length }}
       <button (click)="joinGame(game.id)">Join this game</button>
     </li>
   </ul>
 </div>
+<ng-template #noOpenGames>
+<div><p>No hay ninguna partida en marcha</p></div>
+</ng-template>
 <hr>
 <p>Or create a new one</p>
 <form>

@@ -13,7 +13,7 @@ export class AuthService {
   // private headers = new Headers({ 'Content-Type': 'application/json'});
   // private options = new RequestOptions({ headers: this.headers, withCredentials: false });
   public loginEvent = new EventEmitter<User>();
-  private user: User;
+  public user: User;
 
   constructor( private http: HttpClient ) {
     this.isAuthenticated();
@@ -44,14 +44,14 @@ export class AuthService {
   }
 
   authLogout() {
-    console.log("Do Logout");
+    //console.log("Do Logout");
     return this.http.get(`${environment.apiUrl}/auth/logout`)
                     .map( res => this.setUser(null));
   }
 
   private setUser(user: User): User {
-    console.log("Setted user");
-    console.log(user);
+    //console.log("Setted user");
+    //console.log(user);
     this.user = user;
     this.loginEvent.emit(user);
     return this.user;

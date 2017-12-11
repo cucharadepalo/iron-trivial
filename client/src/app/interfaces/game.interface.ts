@@ -1,9 +1,8 @@
 export interface Game {
+  id: string,
   creator: string,
   name: string,
-  isOpen: boolean,
-  isInPlay: boolean,
-  isFinished: boolean,
+  status: string,
   participants: Array<object>,
   questions: Array<object>,
   ranking: Array<object>,

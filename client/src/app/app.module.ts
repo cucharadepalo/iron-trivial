@@ -15,8 +15,8 @@ import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
-import { GameComponent } from './game/game.component';
-import { QuestionComponent } from './question/question.component';
+import { GameComponent } from './components/game/game.component';
+import { QuestionComponent } from './components/question/question.component';
 
 @NgModule({
   declarations: [

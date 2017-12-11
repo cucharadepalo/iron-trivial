@@ -4,7 +4,14 @@ const Schema = mongoose.Schema;
 const gameUserSchema = new Schema({
   _gameId: { type: Schema.Types.ObjectId, ref: 'Game' },
   _userId: { type: Schema.Types.ObjectId, ref: 'User' },
-  userAnswers: [{ type: Number, default: 0, required: true }],
+  status: { type: String, enum: ['open', 'playing', 'finished'], default: 'open'},
+  userAnswers: [
+    {
+      _questionId: {type: Schema.Types.ObjectId, ref: 'Question'},
+      guessed: { type: Boolean },
+      score: { type: Number }
+    }
+  ],
   userPosition: { type: Number, default: 0 }
 }, {
   timestamps: true
