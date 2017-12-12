@@ -68,7 +68,7 @@ router.put('/game/:id', (req, res, next) => {
   let pushP = {};
   participant ? pushP = {$push: { participants: participant }} : pushP;
   if (id && participant) {
-    Game.findById(id)
+    Game.findById(id).populate('participants')
       .then(game => {
         if (game.participants.indexOf(participant) !== -1) {
           console.log('user is already a participant in this game');

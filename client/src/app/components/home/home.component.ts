@@ -6,6 +6,7 @@ import { GameService } from '../../services/game.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -51,5 +52,9 @@ export class HomeComponent implements OnInit {
   }
   joinGame(id) {
     this.games.joinGame(id)
+      .subscribe(
+        data => this.router.navigate(['game', id])
+      );
+    ;
   }
 }

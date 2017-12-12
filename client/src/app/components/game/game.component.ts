@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { AuthService } from '../../services/auth.service';
+import { GameSocketService } from '../../services/game-socket.service';
 import { Game } from '../../interfaces/game.interface';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -15,7 +16,8 @@ export class GameComponent implements OnInit {
   constructor(
     private games: GameService,
     private route: ActivatedRoute,
-    private auth: AuthService
+    private auth: AuthService,
+    //private socket: GameSocketService
   ) {
     this.route.params.subscribe(params => {
       this.games.getGame(params['id'])
@@ -34,5 +36,9 @@ export class GameComponent implements OnInit {
   startGame(id) {
     this.games.startGame(id);
   }
+
+  // initgame(id) {
+  //   this.socket
+  // }
 
 }

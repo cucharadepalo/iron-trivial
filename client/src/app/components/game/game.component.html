@@ -1,20 +1,14 @@
-<h2>This is the game component</h2>
 <div *ngIf="game">
   <h1>{{ game.name }}</h1>
-  <p>{{ game.id }}</p>
-  <p>{{ game.status }}</p>
-  <dl>
-    <dt>Participants</dt>
-    <dl>{{ game.participants.length }}</dl>
-    <dt>Names</dt>
-    <dl>
-      <ul>
-        <li *ngFor="let p of game.participants">{{ p.username }}</li>
-      </ul>
-    </dl>
-    <dt>Questions</dt>
-    <dl>{{ game.questions.length }}</dl>
-  </dl>
+  <p>ID: {{ game.id }} | Status: {{ game.status }}</p>
+  <div *ngIf="game.creator !== auth.user.id">
+    <p>{{ games.gameMessage }}</p>
+  </div>
+  <div *ngIf="game.creator == auth.user.id">
+    <ul>
+      <li *ngFor="let u of games.joinedUsers">{{ u }}</li>
+    </ul>
+  </div>
   <div *ngIf="game.creator == auth.user.id">
     <button (click)="startGame(game.id)">START THE GAME</button>
   </div>

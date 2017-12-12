@@ -3,9 +3,9 @@ export interface Game {
   creator: string,
   name: string,
   status: string,
-  participants: Array<object>,
-  questions: Array<object>,
-  ranking: Array<object>,
+  participants: Array<any>,
+  questions: Array<any>,
+  ranking: Array<any>,
   createdAt: Date,
   updatedAt: Date,
 }
