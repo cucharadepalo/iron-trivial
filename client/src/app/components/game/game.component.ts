@@ -10,17 +10,6 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  // id: string;
-  // creator: string;
-  // name: string;
-  // isOpen: boolean;
-  // isInPlay: boolean;
-  // isFinished: boolean;
-  // participants: Array<object>;
-  // questions: Array<object>;
-  // ranking: Array<object>;
-  // createdAt: Date;
-  // updatedAt: Date;
   game:Game
 
   constructor(
@@ -28,14 +17,22 @@ export class GameComponent implements OnInit {
     private route: ActivatedRoute,
     private auth: AuthService
   ) {
-    route.params.subscribe(params => {
-      games.getGame(params['id'])
-        .subscribe(
-          (game:Game) => this.game = game);
+    this.route.params.subscribe(params => {
+      this.games.getGame(params['id'])
+        // .subscribe(
+        //   (game:Game) => this.game = game);
     })
   }
 
   ngOnInit() {
+    this.games.gameEvent.map( game => {
+      this.game = game;
+    })
+    .subscribe()
+  }
+
+  startGame(id) {
+    this.games.startGame(id);
   }
 
 }

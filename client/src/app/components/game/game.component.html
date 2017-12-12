@@ -2,6 +2,7 @@
 <div *ngIf="game">
   <h1>{{ game.name }}</h1>
   <p>{{ game.id }}</p>
+  <p>{{ game.status }}</p>
   <dl>
     <dt>Participants</dt>
     <dl>{{ game.participants.length }}</dl>
@@ -15,6 +16,6 @@
     <dl>{{ game.questions.length }}</dl>
   </dl>
   <div *ngIf="game.creator == auth.user.id">
-    <button>START THE GAME</button>
+    <button (click)="startGame(game.id)">START THE GAME</button>
   </div>
 </div>

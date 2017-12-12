@@ -50,12 +50,6 @@ export class HomeComponent implements OnInit {
     );
   }
   joinGame(id) {
-    this.games.joinGame(id).subscribe(
-      (game: Game) => {
-        //console.log(game.participants);
-        this.router.navigate(['game', id])
-      },
-      (err) => console.log(err.message)
-    );
+    this.games.joinGame(id)
   }
 }
