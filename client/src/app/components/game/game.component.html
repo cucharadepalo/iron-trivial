@@ -12,4 +12,8 @@
   <div *ngIf="game.creator == auth.user.id">
     <button (click)="startGame(game.id)">START THE GAME</button>
   </div>
+  <div *ngIf="currentQuestion">
+    <p>Ya hay pregunta</p>
+    <app-question [Q]="currentQuestion"></app-question>
+  </div>
 </div>
