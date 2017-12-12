@@ -12,7 +12,7 @@ const questionSchema = new Schema({
   questionIsCode: { type: Boolean, default: false},
   category: { type: String, enum: CATEGORIES, required: true },
   correctAnswer: {type: String },
-  fakeAnswers: [{ type: String, required: true }],
+  answers: [{ type: String, required: true }],
   approved: { type: Boolean, default: false }
 }, {
   timestamps: true,

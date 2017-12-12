@@ -6,7 +6,7 @@ export interface Question {
   questionCode: string,
   questionIsCode: boolean,
   category: string,
-  correctAnswer: object,
-  fakeAnswers: Array<object>,
-  approved: boolean,
+  correctAnswer: string,
+  answers: Array<string>,
+  id: string,
 }
