@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { Game } from './../interfaces/game.interface';
 import { User } from './../interfaces/user.interface';
 import { Question } from './../interfaces/question.interface';
+import { Answer } from './../interfaces/answer.interface';
 
 @Injectable()
 export class GameService {
@@ -19,7 +20,10 @@ export class GameService {
   joinedUsers:Array<any> = [];
   gameMessage: string = 'Espera un momento, el juego comenzará en breve';
   currentQuestion:Question = null;
+  currentQuestionIndex:Number = null;
   questionTime:number = null;
+  answers:Answer[] = [];
+  correctAnswers:string[] = [];
 
   constructor( private http: HttpClient) {
     this.socket = io.connect(environment.apiUrl);
@@ -72,8 +76,20 @@ export class GameService {
       )
   }
 
+  /* Set the game and fill the answers array */
   private setGame(game: Game): Game {
     this.game = game;
+    for(let i = 0; i < this.game.questions.length; i++) {
+      let answer = <Answer> {}
+      answer._questionId = this.game.questions[i].id;
+      answer.category = this.game.questions[i].category;
+      answer.guessed = false;
+      answer.score = 0;
+      this.answers.push(answer);
+      let correctAnswer:string = this.game.questions[i].correctAnswer;
+      this.correctAnswers.push(correctAnswer);
+    }
+    //console.log(JSON.stringify(this.answers));
     this.gameEvent.emit(game);
     return this.game;
   }

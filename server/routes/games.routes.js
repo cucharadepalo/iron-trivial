@@ -68,7 +68,7 @@ router.put('/game/:id', (req, res, next) => {
   const id = req.params.id;
   const participant = req.user.id;
   if (id && participant) {
-    Game.findById(id).populate('participants')
+    Game.findById(id).populate('questions participants')
       .then(game => {
         let p = game.participants.map(m => m.id.toString());
         if (_.includes(p, participant)) {
@@ -105,9 +105,9 @@ router.put('/game/start/:id', (req, res, next) => {
     Game.findByIdAndUpdate(id, setP, { new: true }).populate('questions participants')
       .then(game => {
         res.json(game);
-        GameUser.find({_gameId: game._id})
+        GameUser.find({_gameId: game._id})//.populate('_gameId')
           .then(docs => {
-            let promises = docs.map(e => {
+            let promises = docs.map((e, i) => {
               e.status = 'playing';
               e.save();
             });
@@ -167,22 +167,16 @@ router.get('/gameuser', (req, res, next) => {
 
 });
 // Update questions on user docs
-router.put('/gameuser/questions', (req, res, next) => {
-  const userId = req.body._userId;
-  const gameId = req.body._gameId;
-  const {_questionId, guessed, category} = req.body;
-  console.log(userId);
-  let score;
-  guessed ? score = 1 : score = 0;
-  const answer = { _questionId, category, guessed, score};
-  let pushA = {};
-  answer !== {} ? pushA = {$push: { questions: answer }} : pushA;
-  console.log('Llego hasta aqui:');
-  console.log(`El user id es: ${userId}`);
-  GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, pushA, { new: true })
+router.put('/user/answers', (req, res, next) => {
+  const userId = req.user.id;
+  //Uncomment for Postman testing
+  //const userId = req.body.userId;
+  const gameId = req.query.gameId;
+  const answers = req.body.answers;
+  let setAnswers = {$set: { questions: answers }};
+  GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, setAnswers, { new: true })
     .then(doc => {
-      console.log(doc._userId);
-      User.findByIdAndUpdate(userId, pushA, { new: true })
+      User.findByIdAndUpdate(userId, setAnswers, { new: true })
         .then(user => {
           if (!user) {
               res.status(404).json({ message: 'User not found' });
