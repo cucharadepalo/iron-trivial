@@ -7,7 +7,7 @@ import { Question } from '../../interfaces/question.interface';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit {
-  @Input() Q: Question;
+  @Input() question: Question;
   constructor() { }
 
   ngOnInit() {

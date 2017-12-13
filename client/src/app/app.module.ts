@@ -9,8 +9,7 @@ import { NgModule } from '@angular/core';
 // Services
 import { AuthService } from './services/auth.service';
 import { GameService } from './services/game.service';
-import { GameSocketService } from './services/game-socket.service';
-
+import { GameManagerService } from './services/game-manager.service';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
 
 import { AppComponent } from './app.component';
@@ -41,7 +40,7 @@ import { QuestionComponent } from './components/question/question.component';
     },
     AuthService,
     GameService,
-    GameSocketService,
+    GameManagerService,
     IsAuthenticatedGuard
   ],
   bootstrap: [AppComponent]

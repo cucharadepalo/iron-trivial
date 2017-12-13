@@ -3,6 +3,7 @@ import { User } from '../../interfaces/user.interface';
 import { Game } from '../../interfaces/game.interface';
 import { GameUser } from '../../interfaces/gameuser.interface';
 import { GameService } from '../../services/game.service';
+import { GameManagerService } from '../../services/game-manager.service';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
@@ -17,17 +18,18 @@ export class HomeComponent implements OnInit {
   message: string;
 
   constructor(
-    private games: GameService,
+    private gameService: GameService,
+    private gameManagerService: GameManagerService,
     private auth: AuthService,
     private router: Router
   ) {
-    games.getOpenGames().subscribe(
+    this.gameManagerService.getOpenGames().subscribe(
       (games:Game[]) => this.openGames = games
     )
   }
 
   ngOnInit() {
-    this.games.checkUserGames(this.auth.user.id).subscribe (
+    this.gameManagerService.checkUserGames(this.auth.user.id).subscribe (
       (doc: GameUser ) => {
         if (doc !== null && doc !== undefined) {
           this.router.navigate(['game', doc._gameId])
@@ -43,7 +45,7 @@ export class HomeComponent implements OnInit {
   }
 
   newGame(gameName:string) {
-    this.games.createGame(gameName).subscribe(
+    this.gameManagerService.createGame(gameName).subscribe(
       (game: Game) => {
         //console.log(game.id);
         this.router.navigate(['game', game.id])
@@ -51,10 +53,6 @@ export class HomeComponent implements OnInit {
     );
   }
   joinGame(id) {
-    this.games.joinGame(id)
-      .subscribe(
-        data => this.router.navigate(['game', id])
-      );
-    ;
+    this.router.navigate(['game', id]);
   }
 }

@@ -66,8 +66,6 @@ router.get('/games', (req, res, next) => {
 router.put('/game/:id', (req, res, next) => {
   const id = req.params.id;
   const participant = req.user.id;
-  let pushP = {};
-  participant ? pushP = {$push: { participants: participant }} : pushP;
   if (id && participant) {
     Game.findById(id).populate('participants')
       .then(game => {
@@ -79,14 +77,16 @@ router.put('/game/:id', (req, res, next) => {
           game.save()
             .then(game => {
               console.log('participant added to the game');
-              res.json(game);
+              res.json({message: 'participant added to the game', game:game});
+
+              // modelo intermedio
               GameUser.find({ _gameId: game._id, _userId: participant })
-                .then(doc => {
-                  console.log(`Cuántos hay: ${doc.length}`);
-                  if (!doc.length) {
-                    GameUser.create({ _gameId: game._id, _userId: participant });
-                  }
-                });
+              .then(doc => {
+                console.log(`Cuántos hay: ${doc.length}`);
+                if (!doc.length) {
+                  GameUser.create({ _gameId: game._id, _userId: participant });
+                }
+              });
           });
         }
       })

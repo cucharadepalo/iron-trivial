@@ -1,19 +1,20 @@
 <p>Question component</p>
-<div *ngIf="Q">
-  <p>{{ Q.category }}
-  <img *ngIf="Q.questionIsImg" [src]="Q.questionImg">
-  <pre *ngIf="Q.questionIsCode">
-    <code [class]="Q.category">
-{{ Q.questionCode }}
+<pre> {{question | json}}</pre>
+<div *ngIf="question">
+  <p>{{ question.category }}
+  <img *ngIf="question.questionIsImg" [src]="question.questionImg">
+  <pre *ngIf="question.questionIsCode">
+    <code [class]="question.category">
+{{ question.questionCode }}
     </code>
   </pre>
-  <p>{{ Q.question }}</p>
+  <p>{{ question.question }}</p>
   <div>
     <ul>
-      <li *ngFor="let a of Q.answers">
+      <li *ngFor="let a of question.answers">
         {{ a }}
       </li>
     </ul>
   </div>
-  <button (click)="submitAnswer(Q.id, a)">Enviar</button>
+  <button (click)="submitAnswer(question.id, a)">Enviar</button>
 </div>
