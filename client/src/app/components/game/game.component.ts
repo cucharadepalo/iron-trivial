@@ -13,19 +13,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class GameComponent {
 
   constructor(
-    private gS: GameService,
+    private gameService: GameService,
     private route: ActivatedRoute,
     private auth: AuthService,
   ) {
     this.route.params.subscribe(params => {
-      this.gS.joinGame(params['id']);
+      this.gameService.joinGame(params['id']);
     })
   }
 
-
   startGame() {
-    this.gS.adminStartGame();
+    this.gameService.adminStartGame();
   }
-
 
 }

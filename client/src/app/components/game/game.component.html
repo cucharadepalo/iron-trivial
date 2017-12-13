@@ -1,22 +1,22 @@
-<div *ngIf="gS.game">
-  <h1>{{ gS.game.name }}</h1>
+<div *ngIf="gameService.game">
+  <h1>{{ gameService.game.name }}</h1>
   <p>USER ID: {{ auth.user.id }}</p>
-  <p>GAME ID: {{ gS.game.id }} | Status: {{ gS.game.status }}</p>
-  <div *ngIf="gS.game.creator !== auth.user.id">
-    <p>{{ gS.gameMessage }}</p>
+  <p>GAME ID: {{ gameService.game.id }} | Status: {{ gameService.game.status }}</p>
+  <div *ngIf="gameService.game.creator !== auth.user.id">
+    <p>{{ gameService.gameMessage }}</p>
   </div>
-  <div *ngIf="gS.game.creator == auth.user.id">
+  <div *ngIf="gameService.game.creator == auth.user.id">
     <ul>
-      <li *ngFor="let user of gS.joinedUsers">
-        El usuario {{user.username}} se ha unido al juego
+      <li *ngFor="let user of gameService.joinedUsers">
+        El usuario {{ user.username }} se ha unido al juego
       </li>
     </ul>
   </div>
-  <div *ngIf="gS.game.creator == auth.user.id">
+  <div *ngIf="gameService.game.creator == auth.user.id">
     <button (click)="startGame()">START THE GAME</button>
   </div>
-  <div *ngIf="gS.currentQuestion">
+  <div *ngIf="gameService.currentQuestion">
     <p>Ya hay pregunta</p>
-    <app-question [question]="gS.currentQuestion"></app-question>
+    <app-question [question]="gameService.currentQuestion"></app-question>
   </div>
 </div>

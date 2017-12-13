@@ -6,6 +6,7 @@ const GameUser = require('../models/game-user.model');
 const User = require('../models/user.model');
 const Question = require('../models/question.model');
 const CATEGORIES = require('../models/categories');
+const _ = require ('lodash');
 
 // Single game object
 router.get('/game', (req, res, next) => {
@@ -69,9 +70,10 @@ router.put('/game/:id', (req, res, next) => {
   if (id && participant) {
     Game.findById(id).populate('participants')
       .then(game => {
-        if (game.participants.indexOf(participant) !== -1) {
+        let p = game.participants.map(m => m.id.toString());
+        if (_.includes(p, participant)) {
           console.log('user is already a participant in this game');
-          res.status(400).json({message: 'user is already a participant in this game'});
+          res.json({message: 'user is already a participant in this game', game:game});
         } else {
           game.participants.push(participant);
           game.save()
@@ -82,7 +84,7 @@ router.put('/game/:id', (req, res, next) => {
               // modelo intermedio
               GameUser.find({ _gameId: game._id, _userId: participant })
               .then(doc => {
-                console.log(`Cuántos hay: ${doc.length}`);
+                //console.log(`Cuántos hay: ${doc.length}`);
                 if (!doc.length) {
                   GameUser.create({ _gameId: game._id, _userId: participant });
                 }
