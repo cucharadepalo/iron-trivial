@@ -22,7 +22,7 @@ export class GameService {
 
     this.socket.on('start-game', function(data:any){
       //console.log(`Game Recibido: ${data.name}`);
-      this.gameMessage = 'la partida va a empezar';
+      this.gameMessage = 'La partida va a empezar';
     }.bind(this));
 
     this.socket.on('recibe-user', function(data:any){

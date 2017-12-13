@@ -12,19 +12,16 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./game.component.scss']
 })
 export class GameComponent implements OnInit {
-  game:Game
+  game:Game;
   currentQuestion:Question = null;
 
   constructor(
     private games: GameService,
     private route: ActivatedRoute,
     private auth: AuthService,
-    //private socket: GameSocketService
   ) {
     this.route.params.subscribe(params => {
       this.games.getGame(params['id'])
-        // .subscribe(
-        //   (game:Game) => this.game = game);
     })
   }
 
