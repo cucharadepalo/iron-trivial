@@ -73,7 +73,7 @@ export class GameService {
     return this.http.put(`${this.baseUrl}/game/start/${id}`, {})
       .subscribe(
         (game:Game) => {
-          console.log(`Iniciando el juego: "${game.id}"`);
+          //console.log(`Iniciando el juego: "${game.id}"`);
           this.socket.emit('init-game',{
             gameId:game.id
           })
@@ -82,8 +82,6 @@ export class GameService {
   }
 
   private setGame(game: Game): Game {
-    //console.log("Setted game");
-    //console.log(game);
     this.game = game;
     this.gameEvent.emit(game);
     return this.game;
