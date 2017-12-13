@@ -1,9 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { AuthService } from '../../services/auth.service';
 import { GameSocketService } from '../../services/game-socket.service';
 import { Game } from '../../interfaces/game.interface';
-import { Question } from '../../interfaces/question.interface';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -13,7 +12,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class GameComponent implements OnInit {
   game:Game
-  currentQuestion:Question = null;
 
   constructor(
     private games: GameService,

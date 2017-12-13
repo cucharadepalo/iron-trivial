@@ -1,19 +1,3 @@
-<p>Question component</p>
-<div *ngIf="Q">
-  <p>{{ Q.category }}
-  <img *ngIf="Q.questionIsImg" [src]="Q.questionImg">
-  <pre *ngIf="Q.questionIsCode">
-    <code [class]="Q.category">
-{{ Q.questionCode }}
-    </code>
-  </pre>
-  <p>{{ Q.question }}</p>
-  <div>
-    <ul>
-      <li *ngFor="let a of Q.answers">
-        {{ a }}
-      </li>
-    </ul>
-  </div>
-  <button (click)="submitAnswer(Q.id, a)">Enviar</button>
-</div>
+<p>
+  question works!
+</p>
