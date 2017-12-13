@@ -5,9 +5,10 @@ const gameUserSchema = new Schema({
   _gameId: { type: Schema.Types.ObjectId, ref: 'Game' },
   _userId: { type: Schema.Types.ObjectId, ref: 'User' },
   status: { type: String, enum: ['open', 'playing', 'finished'], default: 'open'},
-  userAnswers: [
+  questions: [
     {
       _questionId: {type: Schema.Types.ObjectId, ref: 'Question'},
+      category: { type: String },
       guessed: { type: Boolean },
       score: { type: Number }
     }

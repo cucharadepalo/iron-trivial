@@ -11,7 +11,8 @@ const userSchema = new Schema({
   questions: [{
     _questionId: { type: Schema.Types.ObjectId, ref: 'Question' },
     category: { type: String },
-    guessed: { type: Boolean }
+    guessed: { type: Boolean },
+    score: { type: Number }
   }],
   stats: {
     '1': { type: Number, required: true, default: 0 },

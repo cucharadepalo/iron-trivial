@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const Game = require('../models/game.model');
 const GameUser = require('../models/game-user.model');
+const User = require('../models/user.model');
 const Question = require('../models/question.model');
 const CATEGORIES = require('../models/categories');
 
@@ -162,6 +163,33 @@ router.get('/gameuser', (req, res, next) => {
     res.status(400).json({message: 'You have to provide a user id to search for'});
   }
 
+});
+// Update questions on user docs
+router.put('/gameuser/questions', (req, res, next) => {
+  const userId = req.body._userId;
+  const gameId = req.body._gameId;
+  const {_questionId, guessed, category} = req.body;
+  console.log(userId);
+  let score;
+  guessed ? score = 1 : score = 0;
+  const answer = { _questionId, category, guessed, score};
+  let pushA = {};
+  answer !== {} ? pushA = {$push: { questions: answer }} : pushA;
+  console.log('Llego hasta aqui:');
+  console.log(`El user id es: ${userId}`);
+  GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, pushA, { new: true })
+    .then(doc => {
+      console.log(doc._userId);
+      User.findByIdAndUpdate(userId, pushA, { new: true })
+        .then(user => {
+          if (!user) {
+              res.status(404).json({ message: 'User not found' });
+          } else {
+              res.status(200).json({ message: 'Update done!' });
+          }
+        });
+    })
+    .catch(err => next(err));
 });
 
 
