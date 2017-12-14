@@ -17,6 +17,10 @@ export class GameService {
   public gameEvent = new EventEmitter<Game>();
   public socket: any;
 
+  public status: string = 'open';
+  public gameStarted: boolean = false;
+  public gameFinished: boolean = false;
+  public showResults: boolean = false;
   public joinedUsers: Array<any> = [];
   public gameMessage: string = 'Please wait, the game should start shortly';
   public currentQuestion: Question = null;
@@ -24,6 +28,7 @@ export class GameService {
   public questionTime: number = null;
   public answers: Answer[] = [];
   public correctAnswers: string[] = [];
+  public wrongAnswers: Answer[] = [];
   public score: number = 0;
 
   constructor( private http: HttpClient) {
@@ -47,11 +52,11 @@ export class GameService {
     }.bind(this));
 
     this.socket.on('calculate-game', function(data:any){
-      this.gameMessage = 'Game finished';
+      this.gameMessage = 'The game is over';
       this.currentQuestion = data.question;
       this.questionTime = data.timeRemaining;
       this.currentQuestionIndex = data.questionIndex;
-      this.finishGame();
+      this.calculateGame();
     }.bind(this));
 
   }
@@ -73,8 +78,10 @@ export class GameService {
 
   /* Only admin can do this */
   adminStartGame() {
+    this.status = 'playing';
+    this.gameStarted = true;
     let gameID = this.game.id;
-    console.log(`Starting setted game ${gameID}`);
+    //console.log(`Starting setted game ${gameID}`);
     return this.http.put(`${this.baseUrl}/game/start/${gameID}`, {})
       .subscribe(
         (game:Game) => {
@@ -88,18 +95,25 @@ export class GameService {
   calculateGame() {
     console.log(`The game '${this.game.name}' is being calculated.`);
     this.score = _.sumBy(this.answers, (o) => { return o.score});
+    this.wrongAnswers = _.filter(this.answers, (o) => { return !o.guessed });
+    this.status = 'finished';
     console.log(this.score);
+    console.log(this.wrongAnswers);
     let body = { answers: this.answers };
     //console.log(JSON.stringify(body));
     return this.http.put(`${this.baseUrl}/user/answers?gameId=${this.game.id}`, body)
-      .subscribe()
+      .subscribe(
+        res => {
+          this.showResults = true;
+        }
+      )
   }
 
   /* Set the game and fill the answers array */
   private setGame(game: Game): Game {
     this.game = game;
     for(let i = 0; i < this.game.questions.length; i++) {
-      let answer = <Answer> {}
+      let answer = <Answer> {};
       answer._questionId = this.game.questions[i].id;
       answer.category = this.game.questions[i].category;
       answer.guessed = false;

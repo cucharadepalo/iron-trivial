@@ -25,7 +25,6 @@ export class QuestionComponent {
       this.gameService.answers[i].score = 1;
     }
     this.toggler.active = answer;
-    console.log(this.gameService.answers);
   }
 
 }
