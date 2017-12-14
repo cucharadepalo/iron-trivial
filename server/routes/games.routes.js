@@ -183,21 +183,21 @@ router.put('/user/answers', (req, res, next) => {
         { $set: { questions: answers, status: 'finished'} },
         { new: true })
         .then(doc => {
-          Game.findById(gameId, function (err, doc) {
-            if (doc) {
-              doc.ranking.push({ user: username, score: userScore });
-              doc.ranking = doc.ranking.sort((a, b) => {
+          Game.findById(gameId, (err, game) => {
+            if (game) {
+              game.ranking.push({ user: username, score: userScore });
+              game.ranking = game.ranking.sort((a, b) => {
                 return b.score - a.score;
               });
-              if (doc.ranking.length >= doc.participants.length - 1) {
-                doc.status = 'finished';
+              if (game.ranking.length >= game.participants.length - 1) {
+                game.status = 'finished';
               }
-              doc.save();
+              game.save();
             }
           })
             .then(game => {
               //response.push(doc);
-              if (!doc) {
+              if (!game) {
                   res.status(204).json({ message: 'Void return' });
               } else {
                   res.status(200).json({ message: 'Update done!', game: game });

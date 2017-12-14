@@ -1,3 +1,9 @@
-<p>
-  ranking works!
-</p>
+<h2>Ranking</h2>
+<table>
+  <tbody>
+    <tr *ngFor="let participant of gameService.ranking">
+      <td>{{ participant.user }}</td>
+      <td>{{ participant.score }}</td>
+    </tr>
+  </tbody>
+</table>

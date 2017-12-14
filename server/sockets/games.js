@@ -36,10 +36,9 @@ module.exports = (app) =>{
   const io = socketio(app);
 
   io.on('connection', function (socket) {
-    //console.log(`Connected to SOCKETIO ${socket.id}`);
-
+    console.log(`Connected to SOCKETIO ${socket.id}`);
     socket.on('init-game', function (data) {
-      //console.log(data.gameId);
+      console.log(`El juego va a empezar`);
       Game.findById(data.gameId)
         .populate('questions')
         .then( game => {
@@ -55,6 +54,7 @@ module.exports = (app) =>{
     });
 
     socket.on('join-game', function (data) {
+      console.log(`Un usuario se ha unido`);
       User.findById(data.userId)
         .then( user => {
           socket.broadcast.emit('recibe-user', {
@@ -64,8 +64,9 @@ module.exports = (app) =>{
     });
 
     socket.on('game-calculated', function (data) {
+      console.log(`El juego ha sido calculado`);
       setTimeout(() => {
-        Game.findById(data.gameId)
+        Game.findById(data.gameID)
           .then(game => {
             socket.broadcast.emit('game-end', {
               ranking: game.ranking

@@ -48,7 +48,8 @@ export class HomeComponent implements OnInit {
     this.gameManagerService.createGame(gameName).subscribe(
       (game: Game) => {
         //console.log(game.id);
-        this.router.navigate(['game', game.id])
+        //this.router.navigate(['game', game.id])
+        this.joinGame(game.id);
       }
     );
   }

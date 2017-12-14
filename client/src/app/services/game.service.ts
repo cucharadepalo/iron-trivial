@@ -18,7 +18,7 @@ export class GameService {
   public socket: any;
 
   public serviceStatus: string = 'open';
-  public gameStarted: boolean = false;
+  public gameInPlay: boolean = false;
   public gameFinished: boolean = false;
   public showResults: boolean = false;
   public showRanking: boolean = false;
@@ -31,10 +31,10 @@ export class GameService {
   public correctAnswers: string[] = [];
   public wrongAnswers: Answer[] = [];
   public score: number = 0;
+  public ranking: Array<any> = [];
 
   constructor( private http: HttpClient) {
     this.socket = io.connect(environment.apiUrl);
-
     this.socket.on('recibe-user', function(user:any){
       if (!_.includes(this.joinedUsers, user)) {
         this.joinedUsers.push(user);
@@ -43,6 +43,8 @@ export class GameService {
 
     this.socket.on('start-game', function(data:any){
       this.gameMessage = 'Game is about to start';
+      this.serviceStatus = 'playing';
+      this.gameInPlay = true;
     }.bind(this));
 
     this.socket.on('question', function(data:any){
@@ -59,6 +61,9 @@ export class GameService {
       this.questionTime = data.timeRemaining;
       this.currentQuestionIndex = data.questionIndex;
       this.calculateGame();
+      this.serviceStatus = 'finished';
+      this.showResults = true;
+      this.gameInPlay = false;
     }.bind(this));
 
     this.socket.on('game-end', function(data:any) {
@@ -67,6 +72,7 @@ export class GameService {
       //this.setGame(data.game);
       this.showResults = false;
       this.showRanking = true;
+      this.ranking = data.ranking;
     })
 
   }
@@ -79,6 +85,7 @@ export class GameService {
         let participants = game.participants.length;
         let newParticipant = game.participants[participants - 1];
         this.socket.emit('join-game', {
+          gameId: game.id,
           userId: newParticipant.id
         })
       })
@@ -86,27 +93,10 @@ export class GameService {
       .subscribe();
   }
 
-  /* Only admin can do this */
-  adminStartGame() {
-    this.serviceStatus = 'playing';
-    this.gameStarted = true;
-    let gameID = this.game.id;
-    //console.log(`Starting setted game ${gameID}`);
-    return this.http.put(`${this.baseUrl}/game/start/${gameID}`, {})
-      .subscribe(
-        (game:Game) => {
-          //console.log(`Iniciando el juego: "${game.id}"`);
-          this.socket.emit('init-game',{
-            gameId:game.id
-          })
-        }
-      )
-  }
   calculateGame() {
-    //console.log(`The game '${this.game.name}' is being calculated.`);
+    console.log(`The game '${this.game.name}' is being calculated.`);
     this.score = _.sumBy(this.answers, (o) => { return o.score});
     this.wrongAnswers = _.filter(this.answers, (o) => { return !o.guessed });
-    this.serviceStatus = 'finished';
     //console.log(this.score);
     //console.log(this.wrongAnswers);
     let body = { answers: this.answers, score: this.score };
@@ -114,12 +104,31 @@ export class GameService {
     return this.http.put(`${this.baseUrl}/user/answers?gameId=${this.game.id}`, body)
       .subscribe(
         res => {
-          this.showResults = true;
           this.socket.emit('game-calculated', {
             gameID: this.game.id
           })
         }
       )
+  }
+
+  /* Only admin can do this */
+  adminStartGame() {
+    let gameID = this.game.id;
+    console.log(`Starting setted game ${gameID}`);
+    return this.http.put(`${this.baseUrl}/game/start/${gameID}`, {})
+      .subscribe(
+        (game:Game) => {
+          console.log(`Iniciando el juego: "${game.id}"`);
+          this.socket.emit('init-game',{
+            gameId:game.id
+          })
+        }
+      )
+  }
+  adminFinishGame() {
+    let gameID = this.game.id;
+    return this.http.put(`${this.baseUrl}/game/finish/${gameID}`, {})
+      .catch(this.handleError)
   }
 
   /* Set the game and fill the answers array */

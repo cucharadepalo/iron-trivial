@@ -6,7 +6,7 @@
     <div *ngIf="gameService.game.creator !== auth.user.id">
       <p>{{ gameService.gameMessage }}</p>
     </div>
-    <div *ngIf="gameService.game.creator == auth.user.id">
+    <div>
       <ul>
         <li *ngFor="let user of gameService.joinedUsers">
           El usuario {{ user.username }} se ha unido al juego
@@ -14,7 +14,8 @@
       </ul>
     </div>
     <div *ngIf="gameService.game.creator == auth.user.id">
-      <button (click)="startGame()" [disabled]="gameService.gameStarted">START THE GAME</button>
+      <button (click)="startGame()" [disabled]="gameService.gameInPlay">START THE GAME</button>
+      <button (click)="finishGame()">FINISH THE GAME</button>
     </div>
   </section>
 
