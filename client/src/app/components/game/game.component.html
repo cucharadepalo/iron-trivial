@@ -1,8 +1,8 @@
 <div *ngIf="gameService.game">
   <header>
-    <p><small>GAME NAME: {{ gameService.game.name }}<br>USER ID: {{ auth.user.id }}<br>GAME ID: {{ gameService.game.id }}<br>Status: {{ gameService.status }}</small></p>
+    <p><small>GAME NAME: {{ gameService.game.name }}<br>USER ID: {{ auth.user.id }}<br>GAME ID: {{ gameService.game.id }}<br>Status: {{ gameService.game.status }}</small></p>
   </header>
-  <section class="messages" *ngIf="gameService.status == 'open'">
+  <section class="messages" *ngIf="gameService.serviceStatus == 'open'">
     <div *ngIf="gameService.game.creator !== auth.user.id">
       <p>{{ gameService.gameMessage }}</p>
     </div>
@@ -19,8 +19,10 @@
   </section>
 
   <div *ngIf="gameService.currentQuestion">
-    <app-question [question]="gameService.currentQuestion"></app-question>
+    <game-questions [question]="gameService.currentQuestion"></game-questions>
   </div>
 
-  <app-results *ngIf="gameService.showResults"></app-results>
+  <game-results *ngIf="gameService.showResults"></game-results>
+  <game-ranking *ngIf="gameService.showRanking"></game-ranking>
+
 </div>

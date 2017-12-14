@@ -22,16 +22,16 @@ const gameSchema = new Schema({
     }
   }
 });
-
-gameSchema.post('findOneAndUpdate', function (game) {
-  // Remove the '- 1' once the socket works with the game creator
-  if (game.ranking.length >= game.participants.length - 1) {
-    game.status = 'finished';
-    game.ranking = game.ranking.sort((a, b) => {
-      return b.score - a.score;
-    });
-  }
-});
+// Aparentemente esto solo funciona en la respuesta que envía, no lo llega a hacer en la base de datos
+// gameSchema.post('save', function (game) {
+//   // Remove the '- 1' once the socket works with the game creator
+//   if (game.ranking.length >= game.participants.length - 1) {
+//     game.status = 'finished';
+//     game.ranking = game.ranking.sort((a, b) => {
+//       return b.score - a.score;
+//     });
+//   }
+// });
 
 
 module.exports = mongoose.model("Game", gameSchema);

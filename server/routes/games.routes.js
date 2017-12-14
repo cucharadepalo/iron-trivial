@@ -168,26 +168,39 @@ router.get('/gameuser', (req, res, next) => {
 });
 // Update questions on user docs
 router.put('/user/answers', (req, res, next) => {
-  // const userId = req.user.id;
+  const userId = req.user.id;
   //Uncomment for Postman testing
-  const userId = req.body.userId;
-  const username = "Paco";
+  //const userId = req.body.userId;
+  const username = "Mortadelo";
   const gameId = req.query.gameId;
   const answers = req.body.answers;
   const userScore = req.body.score;
-  let response = [];
+  //let response = [];
   User.findByIdAndUpdate(userId, {$push: { questions: { $each: answers }}, $inc: {gamesPlayed : 1}}, { new: true })
     .then(user => {
       //response.push(user);
-      GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, {$set: { questions: answers}}, { new: true })
+      GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId},
+        { $set: { questions: answers, status: 'finished'} },
+        { new: true })
         .then(doc => {
-          Game.findOneAndUpdate({_id: gameId}, {$push: { ranking: { user: username, score: userScore } }}, { new: true })
+          Game.findById(gameId, function (err, doc) {
+            if (doc) {
+              doc.ranking.push({ user: username, score: userScore });
+              doc.ranking = doc.ranking.sort((a, b) => {
+                return b.score - a.score;
+              });
+              if (doc.ranking.length >= doc.participants.length - 1) {
+                doc.status = 'finished';
+              }
+              doc.save();
+            }
+          })
             .then(game => {
-              response.push(game);
-              if (!response.length > 0) {
+              //response.push(doc);
+              if (!doc) {
                   res.status(204).json({ message: 'Void return' });
               } else {
-                  res.status(200).json({ message: 'Update done!', response: response });
+                  res.status(200).json({ message: 'Update done!', game: game });
               }
             });
         });

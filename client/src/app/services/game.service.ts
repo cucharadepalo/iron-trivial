@@ -14,13 +14,14 @@ import { Answer } from './../interfaces/answer.interface';
 export class GameService {
   private baseUrl = `${environment.apiUrl}/api`;
   public game: Game;
-  public gameEvent = new EventEmitter<Game>();
+  //public gameEvent = new EventEmitter<Game>();
   public socket: any;
 
-  public status: string = 'open';
+  public serviceStatus: string = 'open';
   public gameStarted: boolean = false;
   public gameFinished: boolean = false;
   public showResults: boolean = false;
+  public showRanking: boolean = false;
   public joinedUsers: Array<any> = [];
   public gameMessage: string = 'Please wait, the game should start shortly';
   public currentQuestion: Question = null;
@@ -59,6 +60,12 @@ export class GameService {
       this.calculateGame();
     }.bind(this));
 
+    this.socket.on('game-end', function(data:any) {
+      //this.setGame(data.game);
+      this.showResults = false;
+      this.showRanking = true;
+    })
+
   }
 
   joinGame(gameID) {
@@ -78,7 +85,7 @@ export class GameService {
 
   /* Only admin can do this */
   adminStartGame() {
-    this.status = 'playing';
+    this.serviceStatus = 'playing';
     this.gameStarted = true;
     let gameID = this.game.id;
     //console.log(`Starting setted game ${gameID}`);
@@ -93,18 +100,21 @@ export class GameService {
       )
   }
   calculateGame() {
-    console.log(`The game '${this.game.name}' is being calculated.`);
+    //console.log(`The game '${this.game.name}' is being calculated.`);
     this.score = _.sumBy(this.answers, (o) => { return o.score});
     this.wrongAnswers = _.filter(this.answers, (o) => { return !o.guessed });
-    this.status = 'finished';
-    console.log(this.score);
-    console.log(this.wrongAnswers);
+    this.serviceStatus = 'finished';
+    //console.log(this.score);
+    //console.log(this.wrongAnswers);
     let body = { answers: this.answers, score: this.score };
     //console.log(JSON.stringify(body));
     return this.http.put(`${this.baseUrl}/user/answers?gameId=${this.game.id}`, body)
       .subscribe(
         res => {
           this.showResults = true;
+          this.socket.emit('game-calculated', {
+            gameID: this.game.id
+          })
         }
       )
   }
@@ -123,7 +133,7 @@ export class GameService {
       this.correctAnswers.push(correctAnswer);
     }
     //console.log(JSON.stringify(this.answers));
-    this.gameEvent.emit(game);
+    //this.gameEvent.emit(game);
     return this.game;
   }
 

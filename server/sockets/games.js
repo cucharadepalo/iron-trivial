@@ -2,9 +2,10 @@ const socketio = require('socket.io');
 const Game = require('../models/game.model.js');
 const User = require('../models/user.model.js');
 
-let questionTimeOut = 10;
+let questionTimeOut = 3;
 let currentQuestion = 0;
 let startTimeOut = 1;
+let lastTimeout = 3;
 
 function sendNextQuestion(socket, game){
   //console.log(`Broadcasting question ${game.questions[currentQuestion].id}, next in ${questionTimeOut}`);
@@ -60,6 +61,17 @@ module.exports = (app) =>{
             username: user.username
           });
         });
+    });
+
+    socket.on('game-calculated', function (data) {
+      setTimeout(() => {
+        Game.findById(data.gameId)
+          .then(game => {
+            socket.broadcast.emit('game-end', {
+              ranking: game.ranking
+            });
+          });
+      }, lastTimeout * 1000);
     });
 
   });

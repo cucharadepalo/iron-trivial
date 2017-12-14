@@ -3,7 +3,7 @@ import { Question } from '../../interfaces/question.interface';
 import { GameService } from '../../services/game.service';
 
 @Component({
-  selector: 'app-question',
+  selector: 'game-questions',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss']
 })

@@ -2,10 +2,10 @@
 <div [ngSwitch]="gameService.score">
   <p *ngSwitchCase="0">Claramente no te has enterado de nada en el bootcamp</p>
   <p *ngSwitchCase="1">Necesitas mejorar mucho, repásate las learning units!</p>
-  <p *ngSwitchCase="2">Podría haber sido peor, pero sigue aplicándote colega</p>
-  <p *ngSwitchCase="3">La mitad, bueno, ni tan mal, date con un canto en los diesntes</p>
+  <p *ngSwitchCase="2">Podría haber sido peor, pero sigue aplicándote, colega</p>
+  <p *ngSwitchCase="3">La mitad. Bueno —ni tan mal—, el dinero ha servido para algo</p>
   <p *ngSwitchCase="4">Bastante bien, pequeño saltamontes</p>
-  <p *ngSwitchCase="5">Solo has fallado una. Si señor, to flama!</p>
+  <p *ngSwitchCase="5">Solo has fallado una. Si señor! To flama!</p>
   <p *ngSwitchCase="6">Con quién hay que hablar para que te den el puesto de Marc?</p>
 </div>
 <div *ngIf="gameService.wrongAnswers.length > 0">
