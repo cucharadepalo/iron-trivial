@@ -28,6 +28,12 @@ export class GameService {
   constructor( private http: HttpClient) {
     this.socket = io.connect(environment.apiUrl);
 
+    this.socket.on('recibe-user', function(user:any){
+      if (!_.includes(this.joinedUsers, user)) {
+        this.joinedUsers.push(user);
+      }
+    }.bind(this));
+
     this.socket.on('start-game', function(data:any){
       this.gameMessage = 'Game is about to start';
     }.bind(this));
@@ -39,10 +45,12 @@ export class GameService {
       this.currentQuestionIndex = data.questionIndex;
     }.bind(this));
 
-    this.socket.on('recibe-user', function(user:any){
-      if (!_.includes(this.joinedUsers, user)) {
-        this.joinedUsers.push(user);
-      }
+    this.socket.on('game-end', function(data:any){
+      this.gameMessage = 'Game finished';
+      this.currentQuestion = data.question;
+      this.questionTime = data.timeRemaining;
+      this.currentQuestionIndex = data.questionIndex;
+      this.finishGame();
     }.bind(this));
 
   }
@@ -75,6 +83,13 @@ export class GameService {
           })
         }
       )
+  }
+  finishGame() {
+    console.log(`The game '${this.game.name}' has ended`);
+    let body = { answers: this.answers };
+    console.log(JSON.stringify(body));
+    return this.http.put(`${this.baseUrl}/user/answers?gameId=${this.game.id}`, body)
+      .subscribe()
   }
 
   /* Set the game and fill the answers array */

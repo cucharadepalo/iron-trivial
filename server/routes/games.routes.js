@@ -173,10 +173,9 @@ router.put('/user/answers', (req, res, next) => {
   //const userId = req.body.userId;
   const gameId = req.query.gameId;
   const answers = req.body.answers;
-  let setAnswers = {$set: { questions: answers }};
-  GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, setAnswers, { new: true })
+  GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, {$set: { questions: answers}}, { new: true })
     .then(doc => {
-      User.findByIdAndUpdate(userId, setAnswers, { new: true })
+      User.findByIdAndUpdate(userId, {$push: { questions: answers }, $inc: {gamesPlayed : 1}}, { new: true })
         .then(user => {
           if (!user) {
               res.status(404).json({ message: 'User not found' });
