@@ -158,7 +158,55 @@ const questions = [
     correctAnswer: "Amazon",
     answers: ["Amazon","Dropbox", "Twitter", "Google"],
     approved: true
-  }
+  },
+  {
+    creator: "Fran Rom",
+    question: "console.log always returns…",
+    questionImg: null,
+    questionIsImg: false,
+    questionCode: null,
+    questionIsCode: false,
+    category: 'Javascript',
+    correctAnswer: "undefined",
+    answers: ["null","undefined", "string", "it does not return anything"],
+    approved: true
+  },
+  {
+    creator: "Andrei/akdezgas/@thePapi",
+    question: "Which procedure do we use in Ironhack in order to debug our code?",
+    questionImg: "https://www.campusmvp.es/recursos/image.axd?picture=image_33.png",
+    questionIsImg: true,
+    questionCode: null,
+    questionIsCode: false,
+    category: 'Javascript',
+    correctAnswer: "Pollon.log option",
+    answers: ["Debug option","Pollon.log option", "Console.log option", "Morgan option"],
+    approved: true
+  },
+  {
+    creator: "y4izus",
+    question: "Which of the following is NOT an inline-element?",
+    questionImg: null,
+    questionIsImg: false,
+    questionCode: null,
+    questionIsCode: false,
+    category: 'HTML',
+    correctAnswer: "<p>",
+    answers: ["<p>","<a>","<span>","<textarea>"],
+    approved: true
+  },
+  {
+    creator: "@manolo",
+    question: "What would be the equivalent of this javascript in ES6 in ES3?",
+    questionImg: null,
+    questionIsImg: false,
+    questionCode: true,
+    questionIsCode: "const {username, password} = req.body",
+    category: 'Javascript',
+    correctAnswer: "const username = req.body.username, const password = req.body.password",
+    answers: ["const username = req.body, const password = req.body","const username = {req.body.username}, const password = {req.body.password}", "const password, const username", "const username = req.body.username, const password = req.body.password"],
+    approved: true
+  },
 ];
 
 User.create(admin)
