@@ -2,7 +2,7 @@ const socketio = require('socket.io');
 const Game = require('../models/game.model.js');
 const User = require('../models/user.model.js');
 
-let questionTimeOut = 5 * 1000;
+let questionTimeOut = 10 * 1000;
 let currentQuestion = 0;
 
 function sendNextQuestion(socket, game){
@@ -13,7 +13,8 @@ function sendNextQuestion(socket, game){
     let q = game.questions[currentQuestion];
     socket.broadcast.emit('question', {
       question: q,
-      timeRemaining: questionTimeOut
+      timeRemaining: questionTimeOut,
+      questionIndex: currentQuestion
     });
     currentQuestion++;
     setTimeout(() =>{
@@ -30,7 +31,7 @@ module.exports = (app) =>{
   const io = socketio(app);
 
   io.on('connection', function (socket) {
-    console.log(`Connected to SOCKETIO ${socket.id}`);
+    //console.log(`Connected to SOCKETIO ${socket.id}`);
 
     socket.on('init-game', function (data) {
       //console.log(data.gameId);
@@ -40,7 +41,7 @@ module.exports = (app) =>{
           socket.broadcast.emit('start-game', {
             name: game.name
           });
-          let startTimeOut = 5 * 1000;
+          let startTimeOut = 1 * 1000;
           console.log(`Starting game in ${startTimeOut} milisec`);
           setTimeout(() =>{
             sendNextQuestion(socket, game);
