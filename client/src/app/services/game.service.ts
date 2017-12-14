@@ -17,25 +17,26 @@ export class GameService {
   public gameEvent = new EventEmitter<Game>();
   public socket: any;
 
-  joinedUsers:Array<any> = [];
-  gameMessage: string = 'Espera un momento, el juego comenzará en breve';
-  currentQuestion:Question = null;
-  currentQuestionIndex:Number = null;
-  questionTime:number = null;
-  answers:Answer[] = [];
-  correctAnswers:string[] = [];
+  public joinedUsers: Array<any> = [];
+  public gameMessage: string = 'Please wait, the game should start shortly';
+  public currentQuestion: Question = null;
+  public currentQuestionIndex: number = null;
+  public questionTime: number = null;
+  public answers: Answer[] = [];
+  public correctAnswers: string[] = [];
 
   constructor( private http: HttpClient) {
     this.socket = io.connect(environment.apiUrl);
 
     this.socket.on('start-game', function(data:any){
-      this.gameMessage = 'La partida va a empezar';
+      this.gameMessage = 'Game is about to start';
     }.bind(this));
 
     this.socket.on('question', function(data:any){
       data.question.answers = _.shuffle(data.question.answers)
       this.currentQuestion = data.question;
-      this.questionTime = data.questionTime;
+      this.questionTime = data.timeRemaining;
+      this.currentQuestionIndex = data.questionIndex;
     }.bind(this));
 
     this.socket.on('recibe-user', function(user:any){

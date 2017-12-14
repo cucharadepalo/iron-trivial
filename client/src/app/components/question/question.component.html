@@ -1,6 +1,6 @@
 <p>Question component</p>
 <div *ngIf="question">
-  <p>{{ question.category }}
+  <p>{{ question.category }}</p>
   <img *ngIf="question.questionIsImg" [src]="question.questionImg">
   <pre *ngIf="question.questionIsCode">
     <code [class]="question.category">
@@ -8,12 +8,11 @@
     </code>
   </pre>
   <p>{{ question.question }}</p>
-  <div>
-    <ul>
-      <li *ngFor="let a of question.answers">
-        {{ a }}
-      </li>
-    </ul>
+  <hr>
+  <div *ngFor="let answer of question.answers"
+      (click)="setAnswer(answer)"
+      [class.active]="getToggler(answer)"
+      class="answer-wrapper">
+    {{ answer }}
   </div>
-  <button (click)="submitAnswer(question.id, a)">Enviar</button>
 </div>
