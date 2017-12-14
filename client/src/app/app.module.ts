@@ -17,6 +17,8 @@ import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { GameComponent } from './components/game/game.component';
 import { QuestionComponent } from './components/question/question.component';
+import { ProgressBarComponent } from './components/progress-bar/progress-bar.component';
+import { ResultsComponent } from './components/results/results.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { QuestionComponent } from './components/question/question.component';
     LoginComponent,
     HomeComponent,
     GameComponent,
-    QuestionComponent
+    QuestionComponent,
+    ProgressBarComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule,
