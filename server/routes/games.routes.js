@@ -168,19 +168,20 @@ router.get('/gameuser', (req, res, next) => {
 });
 // Update questions on user docs
 router.put('/user/answers', (req, res, next) => {
-  //const userId = req.user.id;
+  // const userId = req.user.id;
   //Uncomment for Postman testing
   const userId = req.body.userId;
+  const username = "Paco";
   const gameId = req.query.gameId;
   const answers = req.body.answers;
   const userScore = req.body.score;
   let response = [];
   User.findByIdAndUpdate(userId, {$push: { questions: { $each: answers }}, $inc: {gamesPlayed : 1}}, { new: true })
     .then(user => {
-      response.push(user);
+      //response.push(user);
       GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, {$set: { questions: answers}}, { new: true })
         .then(doc => {
-          Game.findOneAndUpdate({_id: gameId}, {$push: { ranking: { user: userId, score: userScore } }}, { new: true })
+          Game.findOneAndUpdate({_id: gameId}, {$push: { ranking: { user: username, score: userScore } }}, { new: true })
             .then(game => {
               response.push(game);
               if (!response.length > 0) {
@@ -191,7 +192,6 @@ router.put('/user/answers', (req, res, next) => {
             });
         });
     })
-
     .catch(err => next(err));
 });
 

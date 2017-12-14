@@ -23,10 +23,13 @@ const gameSchema = new Schema({
   }
 });
 
-gameSchema.post('findOneAndUpdate', function (doc) {
+gameSchema.post('findOneAndUpdate', function (game) {
   // Remove the '- 1' once the socket works with the game creator
-  if (doc.ranking.length >= doc.participants.length - 1) {
-    doc.status = 'finished';
+  if (game.ranking.length >= game.participants.length - 1) {
+    game.status = 'finished';
+    game.ranking = game.ranking.sort((a, b) => {
+      return b.score - a.score;
+    });
   }
 });
 
