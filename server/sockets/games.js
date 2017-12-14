@@ -23,7 +23,7 @@ function sendNextQuestion(socket, game){
     }, questionTimeOut * 1000);
   }else{
    // end game
-   socket.broadcast.emit('game-end', {
+   socket.broadcast.emit('calculate-game', {
      question: null,
      timeRemaining: 0,
      questionIndex: null,

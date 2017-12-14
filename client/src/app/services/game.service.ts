@@ -24,6 +24,7 @@ export class GameService {
   public questionTime: number = null;
   public answers: Answer[] = [];
   public correctAnswers: string[] = [];
+  public score: number = 0;
 
   constructor( private http: HttpClient) {
     this.socket = io.connect(environment.apiUrl);
@@ -45,7 +46,7 @@ export class GameService {
       this.currentQuestionIndex = data.questionIndex;
     }.bind(this));
 
-    this.socket.on('game-end', function(data:any){
+    this.socket.on('calculate-game', function(data:any){
       this.gameMessage = 'Game finished';
       this.currentQuestion = data.question;
       this.questionTime = data.timeRemaining;
@@ -84,10 +85,12 @@ export class GameService {
         }
       )
   }
-  finishGame() {
-    console.log(`The game '${this.game.name}' has ended`);
+  calculateGame() {
+    console.log(`The game '${this.game.name}' is being calculated.`);
+    this.score = _.sumBy(this.answers, (o) => { return o.score});
+    console.log(this.score);
     let body = { answers: this.answers };
-    console.log(JSON.stringify(body));
+    //console.log(JSON.stringify(body));
     return this.http.put(`${this.baseUrl}/user/answers?gameId=${this.game.id}`, body)
       .subscribe()
   }
