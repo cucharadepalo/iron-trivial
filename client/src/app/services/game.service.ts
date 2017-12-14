@@ -53,6 +53,7 @@ export class GameService {
     }.bind(this));
 
     this.socket.on('calculate-game', function(data:any){
+      console.log(`Ya están todas las preguntas, veamos quien ha ganado`);
       this.gameMessage = 'The game is over';
       this.currentQuestion = data.question;
       this.questionTime = data.timeRemaining;
@@ -61,6 +62,8 @@ export class GameService {
     }.bind(this));
 
     this.socket.on('game-end', function(data:any) {
+      console.log(`El juego ha terminado, veamos el ranking`)
+      this.gameMessage = 'This is the ranking';
       //this.setGame(data.game);
       this.showResults = false;
       this.showRanking = true;
