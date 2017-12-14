@@ -8,7 +8,7 @@ let startTimeOut = 1;
 let lastTimeout = 3;
 
 function sendNextQuestion(socket, game){
-  //console.log(`Broadcasting question ${game.questions[currentQuestion].id}, next in ${questionTimeOut}`);
+  console.log(`Broadcasting question ${game.questions[currentQuestion].id}, next in ${questionTimeOut}`);
   // check if game is ended
   if(currentQuestion < game.questions.length){
     // Next question
