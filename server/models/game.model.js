@@ -8,9 +8,8 @@ const gameSchema = new Schema({
   questions: [{ type: Schema.Types.ObjectId, ref: 'Question' }],
   status: { type: String, enum: ['open', 'playing', 'finished'], default: 'open'},
   ranking: [{
-    position: { type: Number },
     user: { type: String },
-    points: { type: Number }
+    score: { type: Number }
   }]
 }, {
   timestamps: true,
