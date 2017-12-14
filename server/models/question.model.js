@@ -22,7 +22,7 @@ const questionSchema = new Schema({
         delete ret.approved;
         delete ret._id;
         delete ret.__v;
-        delete ret.random;
+        //delete ret.random;
         return ret;
     }
   }

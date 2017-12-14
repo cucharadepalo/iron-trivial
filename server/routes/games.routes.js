@@ -168,22 +168,30 @@ router.get('/gameuser', (req, res, next) => {
 });
 // Update questions on user docs
 router.put('/user/answers', (req, res, next) => {
-  const userId = req.user.id;
+  //const userId = req.user.id;
   //Uncomment for Postman testing
-  //const userId = req.body.userId;
+  const userId = req.body.userId;
   const gameId = req.query.gameId;
   const answers = req.body.answers;
-  GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, {$set: { questions: answers}}, { new: true })
-    .then(doc => {
-      User.findByIdAndUpdate(userId, {$push: { questions: answers }, $inc: {gamesPlayed : 1}}, { new: true })
-        .then(user => {
-          if (!user) {
-              res.status(404).json({ message: 'User not found' });
-          } else {
-              res.status(200).json({ message: 'Update done!' });
-          }
+  const userScore = req.body.score;
+  let response = [];
+  User.findByIdAndUpdate(userId, {$push: { questions: { $each: answers }}, $inc: {gamesPlayed : 1}}, { new: true })
+    .then(user => {
+      response.push(user);
+      GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId}, {$set: { questions: answers}}, { new: true })
+        .then(doc => {
+          Game.findOneAndUpdate({_id: gameId}, {$push: { ranking: { user: userId, score: userScore } }}, { new: true })
+            .then(game => {
+              response.push(game);
+              if (!response.length > 0) {
+                  res.status(204).json({ message: 'Void return' });
+              } else {
+                  res.status(200).json({ message: 'Update done!', response: response });
+              }
+            });
         });
     })
+
     .catch(err => next(err));
 });
 

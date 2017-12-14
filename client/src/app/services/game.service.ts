@@ -99,7 +99,7 @@ export class GameService {
     this.status = 'finished';
     console.log(this.score);
     console.log(this.wrongAnswers);
-    let body = { answers: this.answers };
+    let body = { answers: this.answers, score: this.score };
     //console.log(JSON.stringify(body));
     return this.http.put(`${this.baseUrl}/user/answers?gameId=${this.game.id}`, body)
       .subscribe(
