@@ -24,17 +24,9 @@ const gameSchema = new Schema({
 });
 
 gameSchema.post('findOneAndUpdate', function (doc) {
-  //const game = this;
-  console.log(doc);
-  // console.log(this.participants.length);
-  // if (!doc.isModified('ranking')) {
-  //     return next();
-  // }
-
   // Remove the '- 1' once the socket works with the game creator
   if (doc.ranking.length >= doc.participants.length - 1) {
     doc.status = 'finished';
-    //return next();
   }
 });
 
