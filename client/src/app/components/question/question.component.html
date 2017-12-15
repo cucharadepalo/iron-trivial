@@ -1,6 +1,5 @@
-<p>Question component</p>
 <div *ngIf="question">
-  <p>{{ question.category }}</p>
+  <p>CATEGORY: {{ question.category }}</p>
   <img *ngIf="question.questionIsImg" [src]="question.questionImg">
   <pre *ngIf="question.questionIsCode">
     <code [class]="question.category">
