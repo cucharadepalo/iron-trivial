@@ -1,13 +1,6 @@
-import { Game } from './../interfaces/game.interface';
-import { User } from './../interfaces/user.interface';
-import { Question } from './../interfaces/question.interface';
 import { HttpClient } from '@angular/common/http';
-import { Injectable, EventEmitter } from '@angular/core';
-import * as io from 'socket.io-client';
-import { Observable } from 'rxjs/Rx';
+import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { map } from 'rxjs/operators';
-import * as _ from 'lodash';
 
 @Injectable()
 export class GameManagerService {
@@ -33,6 +26,10 @@ export class GameManagerService {
 
   getGame(gameID){
     return this.http.get(`${this.baseUrl}/game?id=${gameID}`)
+  }
+
+  getGameRanking(gameID){
+    return this.http.get(`${this.baseUrl}/game/ranking?gameId=${gameID}`)
   }
 
 }

@@ -13,7 +13,7 @@ router.get('/game', (req, res, next) => {
   const id = req.query.id;
   if (id) {
     if (mongoose.Types.ObjectId.isValid(id)) {
-      Game.findById(id).populate('questions participants')
+      Game.findById(id)
         .then(game => {
           game ? res.json(game) : res.status(204).json({ message: 'No Open games' });
         })
@@ -164,14 +164,14 @@ router.get('/gameuser', (req, res, next) => {
   } else {
     res.status(400).json({message: 'You have to provide a user id to search for'});
   }
-
 });
 // Update questions on user docs
 router.put('/user/answers', (req, res, next) => {
   const userId = req.user.id;
   //Uncomment for Postman testing
   //const userId = req.body.userId;
-  const username = "Mortadelo";
+  //const username = "Mortadelo";
+  const username = req.user.username;
   const gameId = req.query.gameId;
   const answers = req.body.answers;
   const userScore = req.body.score;
@@ -180,29 +180,33 @@ router.put('/user/answers', (req, res, next) => {
     .then(user => {
       //response.push(user);
       GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId},
-        { $set: { questions: answers, status: 'finished'} },
+        { $set: { questions: answers, status: 'finished', score: userScore } },
         { new: true })
         .then(doc => {
-          Game.findById(gameId, (err, game) => {
-            if (game) {
-              game.ranking.push({ user: username, score: userScore });
-              game.ranking = game.ranking.sort((a, b) => {
-                return b.score - a.score;
-              });
-              if (game.ranking.length >= game.participants.length - 1) {
-                game.status = 'finished';
-              }
-              game.save();
-            }
-          })
-            .then(game => {
-              //response.push(doc);
-              if (!game) {
-                  res.status(204).json({ message: 'Void return' });
-              } else {
-                  res.status(200).json({ message: 'Update done!', game: game });
-              }
-            });
+          if (!doc) {
+              res.status(204).json({ message: 'Void return' });
+          } else {
+              res.status(200).json({ message: 'Update done!'});
+          }
+        });
+    })
+    .catch(err => next(err));
+});
+// Get Game ranking from intermediate docs
+router.get('/game/ranking', (req, res, next) => {
+  const gameId = req.query.gameId;
+  GameUser.find({_gameId: gameId}, '_userId score')
+    .populate('_userId', 'username')
+    .then(docs => {
+      let scores = docs.map(e => {
+        return { user: e._userId.username, score: e.score };
+      });
+      scores = scores.sort((a, b) => {
+        return b.score - a.score;
+      });
+      Game.findByIdAndUpdate(gameId, { $set: { ranking: scores, status: 'finished' }}, {new:true})
+        .then(game => {
+          res.status(200).json(game);
         });
     })
     .catch(err => next(err));

@@ -14,3 +14,4 @@
       <li *ngFor="let w of gameService.wrongAnswers">{{ w.category }}</li>
     </ul>
 </div>
+<a [routerLink]="['/game-recap', gameService.game.id]">Ver los resultados globales</a>

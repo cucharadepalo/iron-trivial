@@ -21,7 +21,6 @@ export class GameService {
   public gameInPlay: boolean = false;
   public gameFinished: boolean = false;
   public showResults: boolean = false;
-  public showRanking: boolean = false;
   public joinedUsers: Array<any> = [];
   public gameMessage: string = 'Please wait, the game should start shortly';
   public currentQuestion: Question = null;
@@ -66,15 +65,6 @@ export class GameService {
       this.gameInPlay = false;
     }.bind(this));
 
-    this.socket.on('game-end', function(data:any) {
-      console.log(`El juego ha terminado, veamos el ranking`)
-      this.gameMessage = 'This is the ranking';
-      //this.setGame(data.game);
-      this.showResults = false;
-      this.showRanking = true;
-      this.ranking = data.ranking;
-    })
-
   }
 
   joinGame(gameID) {
@@ -103,11 +93,11 @@ export class GameService {
     //console.log(JSON.stringify(body));
     return this.http.put(`${this.baseUrl}/user/answers?gameId=${this.game.id}`, body)
       .subscribe(
-        res => {
-          this.socket.emit('game-calculated', {
-            gameID: this.game.id
-          })
-        }
+        // res => {
+        //   this.socket.emit('answers-posted', {
+        //     gameID: this.game.id
+        //   })
+        // }
       )
   }
 

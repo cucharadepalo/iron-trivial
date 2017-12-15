@@ -1,6 +1,7 @@
 <div *ngIf="gameService.game">
   <header>
     <p><small>GAME NAME: {{ gameService.game.name }}<br>USER ID: {{ auth.user.id }}<br>GAME ID: {{ gameService.game.id }}<br>Status: {{ gameService.game.status }}</small></p>
+    <span *ngIf="gameService.showRanking">Debería salir el ranking ya</span>
   </header>
   <section class="messages" *ngIf="gameService.serviceStatus == 'open'">
     <div *ngIf="gameService.game.creator !== auth.user.id">
@@ -24,6 +25,6 @@
   </div>
 
   <game-results *ngIf="gameService.showResults"></game-results>
-  <game-ranking *ngIf="gameService.showRanking"></game-ranking>
+
 
 </div>

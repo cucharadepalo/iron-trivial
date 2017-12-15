@@ -1,7 +1,8 @@
 <h2>Ranking</h2>
+<pre>{{ recap | json }}</pre>
 <table>
   <tbody>
-    <tr *ngFor="let participant of gameService.ranking">
+    <tr *ngFor="let participant of recap.ranking">
       <td>{{ participant.user }}</td>
       <td>{{ participant.score }}</td>
     </tr>

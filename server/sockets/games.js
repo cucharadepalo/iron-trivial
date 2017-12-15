@@ -36,7 +36,12 @@ module.exports = (app) =>{
   const io = socketio(app);
 
   io.on('connection', function (socket) {
-    console.log(`Connected to SOCKETIO ${socket.id}`);
+    //console.log(`Connected to SOCKETIO ${socket.id}`);
+
+    socket.on('disconnect', function(){
+      console.log('user disconnected');
+    });
+
     socket.on('init-game', function (data) {
       console.log(`El juego va a empezar`);
       Game.findById(data.gameId)

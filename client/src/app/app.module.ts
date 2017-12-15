@@ -11,6 +11,7 @@ import { AuthService } from './services/auth.service';
 import { GameService } from './services/game.service';
 import { GameManagerService } from './services/game-manager.service';
 import { IsAuthenticatedGuard } from './guards/is-authenticated.guard';
+import { GameResolverGuard } from './guards/game-resolver.guard';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
@@ -47,7 +48,8 @@ import { RankingComponent } from './components/ranking/ranking.component';
     AuthService,
     GameService,
     GameManagerService,
-    IsAuthenticatedGuard
+    IsAuthenticatedGuard,
+    GameResolverGuard
   ],
   bootstrap: [AppComponent]
 })
