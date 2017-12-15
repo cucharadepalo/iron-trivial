@@ -1,1 +1,1 @@
-body{background:#fff;color:#052F41;margin:2rem;padding:2rem;font:20px/1.5 'Roboto','Helvetica Neue', sans-serif}
+html{font-size:10px}body{background:#DBE1E3;color:#052F41;margin:2rem;padding:2rem;font:14px/1.5 'Roboto','Helvetica Neue', sans-serif}.button{font-weight:bold;border-radius:.25rem;padding:1.5rem;text-align:center;border:none;cursor:pointer;font-size:1.5rem;color:#fff;margin-bottom:.5rem;background:#32C3FF}.button.facebook{background:#4060B8}.button.github{background:#00BD40}.button.login{min-width:13rem}.button:focus,.button:active{outline:none}

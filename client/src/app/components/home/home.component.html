@@ -1,22 +1,23 @@
-<h2>Home: Game selector</h2>
-<button (click)="logout()">Logout</button>
-<div *ngIf="openGames; else noOpenGames">
-  <p>Join a game</p>
-  <ul>
-    <li *ngFor="let game of openGames" class="game-item">
-      <a [routerLink]="['/game', game.id]"><strong>{{ game.name }}</strong></a> | Number of Players: {{ game.participants.length }}
-      <button (click)="joinGame(game.id)">Join this game</button>
-    </li>
-  </ul>
+<div class="container">
+  <div class="text-center">
+    <img src="/assets/img/iron-trivia-logo-flat.png" width="80%">
+  </div>
+  <!-- <button (click)="logout()">Logout</button> -->
+  <p class="big text-center">Join a game</p>
+  <div *ngIf="openGames; else noOpenGames">
+    <ul class="selector">
+      <li *ngFor="let game of openGames" class="game-item">
+        <a [routerLink]="['/game', game.id]">{{ game.name }} ({{ game.participants.length }})</a>
+      </li>
+    </ul>
+  </div>
+  <ng-template #noOpenGames>
+    <div><p>There are no open games right now</p></div>
+  </ng-template>
+  <hr>
+  <p class="big text-center">Or create a new one</p>
+  <form>
+    <input type="text" [(ngModel)]="gameName" name="gameName" placeholder="Iron trivia game">
+    <button (click)="newGame(gameName)">New Game</button>
+  </form>
 </div>
-<ng-template #noOpenGames>
-  <div><p>There are no open games right now</p></div>
-</ng-template>
-<hr>
-<p>Or create a new one</p>
-<form>
-  <label>name
-    <input type="text" [(ngModel)]="gameName" name="gameName">
-  </label>
-  <button (click)="newGame(gameName)">New Game</button>
-</form>

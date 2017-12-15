@@ -30,7 +30,7 @@ export class GameService {
   public correctAnswers: string[] = [];
   public wrongAnswers: Answer[] = [];
   public score: number = 0;
-  public ranking: Array<any> = [];
+  // public ranking: Array<any> = [];
 
   constructor( private http: HttpClient) {
     this.socket = io.connect(environment.apiUrl);

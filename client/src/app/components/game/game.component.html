@@ -1,19 +1,20 @@
 <div *ngIf="gameService.game">
   <header>
-    <p><small>GAME NAME: {{ gameService.game.name }}<br>USER ID: {{ auth.user.id }}<br>GAME ID: {{ gameService.game.id }}<br>Status: {{ gameService.game.status }}</small></p>
-    <span *ngIf="gameService.showRanking">Debería salir el ranking ya</span>
-    <ul>
+    <h1>{{ gameService.game.name }}</h1>
+    <!-- <p><small>GAME NAME: {{ gameService.game.name }}<br>USER ID: {{ auth.user.id }}<br>GAME ID: {{ gameService.game.id }}<br>Status: {{ gameService.game.status }}</small></p>
+    <span *ngIf="gameService.showRanking">Debería salir el ranking ya</span> -->
+    <!-- <ul>
       <li>serviceStatus {{ gameService.serviceStatus }}</li>
       <li>gameInPlay {{ gameService.gameInPlay }}</li>
       <li>gameFinished {{ gameService.gameFinished }}</li>
       <li>gameMessage {{ gameService.gameMessage }}</li>
-      <li>correctAnswers {{ gameService.correctAnswers }}</li>
+      <li>correctAnswers {{ gameService.correctAnswers | json }}</li>
       <li>score {{ gameService.score }}</li>
       <li>answers{{ gameService.answers }}</li>
       <li>questionTime {{ gameService.questionTime }}</li>
       <li>currentQuestionIndex {{ gameService.currentQuestionIndex }}</li>
       <li>currentQuestion {{ gameService.currentQuestion }}</li>
-    </ul>
+    </ul> -->
   </header>
   <section class="messages" *ngIf="gameService.serviceStatus == 'open'">
     <div *ngIf="gameService.game.creator !== auth.user.id">
@@ -28,7 +29,7 @@
     </div>
     <div *ngIf="gameService.game.creator == auth.user.id">
       <button (click)="startGame()" [disabled]="gameService.gameInPlay">START THE GAME</button>
-      <button (click)="finishGame()">FINISH THE GAME</button>
+      <!-- <button (click)="finishGame()">FINISH THE GAME</button> -->
     </div>
   </section>
 

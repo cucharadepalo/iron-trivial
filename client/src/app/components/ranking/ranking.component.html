@@ -1,10 +1,10 @@
 <h2>Ranking</h2>
-<pre>{{ recap | json }}</pre>
+<!-- <pre>{{ recap | json }}</pre> -->
 <table>
   <tbody>
     <tr *ngFor="let participant of recap.ranking">
       <td>{{ participant.user }}</td>
-      <td>{{ participant.score }}</td>
+      <td>{{ participant.score }} / 6</td>
     </tr>
   </tbody>
 </table>

@@ -13,7 +13,7 @@ function sendNextQuestion(io, game) {
   if (currentQuestion < game.questions.length) {
     // Next question
     let q = game.questions[currentQuestion];
-    io.in(gameRoom)
+    io//.in(gameRoom)
       .emit('question', {
         question: q,
         timeRemaining: questionTimeOut,
@@ -25,7 +25,7 @@ function sendNextQuestion(io, game) {
     }, questionTimeOut * 1000);
   } else {
     // end game
-    io.in(gameRoom)
+    io//.in(gameRoom)
       .emit('calculate-game', {
         question: null,
         timeRemaining: 0,
@@ -42,14 +42,15 @@ module.exports = (app) => {
       console.log('user disconnected');
     });
 
-    socket.join(gameRoom);
+    //socket.join(gameRoom);
 
     socket.on('init-game', function(data) {
       //console.log(`El juego va a empezar`);
       Game.findById(data.gameId)
         .populate('questions')
         .then(game => {
-          io.in(gameRoom).emit('start-game', {
+          io//.in(gameRoom)
+            .emit('start-game', {
               name: game.name,
               timeRemaining: startTimeOut
             });
@@ -60,10 +61,11 @@ module.exports = (app) => {
       });
 
       socket.on('join-game', function (data) {
-        console.log(`Un usuario se ha unido a la partida`);
+        //console.log(`Un usuario se ha unido a la partida`);
         User.findById(data.userId)
           .then( user => {
-            io.in(gameRoom).emit('recibe-user', {
+            io//.in(gameRoom)
+              .emit('recibe-user', {
               username: user.username
             });
           });
