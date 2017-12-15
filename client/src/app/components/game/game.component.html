@@ -2,6 +2,18 @@
   <header>
     <p><small>GAME NAME: {{ gameService.game.name }}<br>USER ID: {{ auth.user.id }}<br>GAME ID: {{ gameService.game.id }}<br>Status: {{ gameService.game.status }}</small></p>
     <span *ngIf="gameService.showRanking">Debería salir el ranking ya</span>
+    <ul>
+      <li>serviceStatus {{ gameService.serviceStatus }}</li>
+      <li>gameInPlay {{ gameService.gameInPlay }}</li>
+      <li>gameFinished {{ gameService.gameFinished }}</li>
+      <li>gameMessage {{ gameService.gameMessage }}</li>
+      <li>correctAnswers {{ gameService.correctAnswers }}</li>
+      <li>score {{ gameService.score }}</li>
+      <li>answers{{ gameService.answers }}</li>
+      <li>questionTime {{ gameService.questionTime }}</li>
+      <li>currentQuestionIndex {{ gameService.currentQuestionIndex }}</li>
+      <li>currentQuestion {{ gameService.currentQuestion }}</li>
+    </ul>
   </header>
   <section class="messages" *ngIf="gameService.serviceStatus == 'open'">
     <div *ngIf="gameService.game.creator !== auth.user.id">
