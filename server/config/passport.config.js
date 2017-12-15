@@ -29,7 +29,6 @@ module.exports.setup = (passport) => {
     callbackURL: process.env.FACEBOOK_CALLBACK
   },
     function(accessToken, refreshToken, profile, cb) {
-      console.log(profile);
       User.findOrCreate({ facebookId: profile.id }, { username: profile._json.name }, (err, user) => {
         return cb(err, user);
       });

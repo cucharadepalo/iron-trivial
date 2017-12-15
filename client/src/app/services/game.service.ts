@@ -21,7 +21,6 @@ export class GameService {
   public gameInPlay: boolean = false;
   public gameFinished: boolean = false;
   public showResults: boolean = false;
-  public showRanking: boolean = false;
   public joinedUsers: Array<any> = [];
   public gameMessage: string = 'Please wait, the game should start shortly';
   public currentQuestion: Question = null;
@@ -67,12 +66,7 @@ export class GameService {
     }.bind(this));
 
     this.socket.on('game-end', function(data:any) {
-      console.log(`El juego ha terminado, veamos el ranking`)
       this.gameMessage = 'This is the ranking';
-      //this.setGame(data.game);
-      this.showResults = false;
-      this.showRanking = true;
-      this.ranking = data.ranking;
     })
 
   }

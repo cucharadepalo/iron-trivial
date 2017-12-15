@@ -13,7 +13,7 @@ router.get('/game', (req, res, next) => {
   const id = req.query.id;
   if (id) {
     if (mongoose.Types.ObjectId.isValid(id)) {
-      Game.findById(id).populate('questions participants')
+      Game.findById(id)
         .then(game => {
           game ? res.json(game) : res.status(204).json({ message: 'No Open games' });
         })
@@ -171,7 +171,8 @@ router.put('/user/answers', (req, res, next) => {
   const userId = req.user.id;
   //Uncomment for Postman testing
   //const userId = req.body.userId;
-  const username = "Mortadelo";
+  //const username = "Mortadelo";
+  const username = req.user.username;
   const gameId = req.query.gameId;
   const answers = req.body.answers;
   const userScore = req.body.score;
@@ -189,7 +190,7 @@ router.put('/user/answers', (req, res, next) => {
               game.ranking = game.ranking.sort((a, b) => {
                 return b.score - a.score;
               });
-              if (game.ranking.length >= game.participants.length - 1) {
+              if (game.ranking.length >= game.participants.length) {
                 game.status = 'finished';
               }
               game.save();

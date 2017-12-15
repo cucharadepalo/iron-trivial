@@ -1,11 +1,8 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { GameService } from '../../services/game.service';
 import { AuthService } from '../../services/auth.service';
-import { Game } from '../../interfaces/game.interface';
-import { Question } from '../../interfaces/question.interface';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ResultsComponent } from '../results/results.component';
-import { RankingComponent } from '../ranking/ranking.component';
 
 @Component({
   selector: 'app-game',
@@ -14,7 +11,6 @@ import { RankingComponent } from '../ranking/ranking.component';
 })
 export class GameComponent {
   @ViewChild(ResultsComponent) results: ResultsComponent;
-  @ViewChild(RankingComponent) ranking: RankingComponent;
 
   constructor(
     private gameService: GameService,
