@@ -164,7 +164,6 @@ router.get('/gameuser', (req, res, next) => {
   } else {
     res.status(400).json({message: 'You have to provide a user id to search for'});
   }
-
 });
 // Update questions on user docs
 router.put('/user/answers', (req, res, next) => {
@@ -181,7 +180,7 @@ router.put('/user/answers', (req, res, next) => {
     .then(user => {
       //response.push(user);
       GameUser.findOneAndUpdate({ _userId: userId, _gameId: gameId},
-        { $set: { questions: answers, status: 'finished'} },
+        { $set: { questions: answers, status: 'finished', score: userScore } },
         { new: true })
         .then(doc => {
           Game.findById(gameId, (err, game) => {
@@ -204,6 +203,25 @@ router.put('/user/answers', (req, res, next) => {
                   res.status(200).json({ message: 'Update done!', game: game });
               }
             });
+        });
+    })
+    .catch(err => next(err));
+});
+// Get Game ranking from intermediate docs
+router.get('/game/ranking', (req, res, next) => {
+  const gameId = req.query.gameId;
+  GameUser.find({_gameId: gameId}, '_userId score')
+    .populate('_userId', 'username')
+    .then(docs => {
+      let scores = docs.map(e => {
+        return { user: e._userId.username, score: e.score };
+      });
+      scores = scores.sort((a, b) => {
+        return b.score - a.score;
+      });
+      Game.findByIdAndUpdate(gameId, { $set: { ranking: scores, status: 'finished' }}, {new:true})
+        .then(game => {
+          res.status(200).json(game);
         });
     })
     .catch(err => next(err));
