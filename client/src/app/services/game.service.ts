@@ -65,10 +65,6 @@ export class GameService {
       this.gameInPlay = false;
     }.bind(this));
 
-    this.socket.on('game-end', function(data:any) {
-      this.gameMessage = 'This is the ranking';
-    })
-
   }
 
   joinGame(gameID) {
@@ -97,11 +93,11 @@ export class GameService {
     //console.log(JSON.stringify(body));
     return this.http.put(`${this.baseUrl}/user/answers?gameId=${this.game.id}`, body)
       .subscribe(
-        res => {
-          this.socket.emit('game-calculated', {
-            gameID: this.game.id
-          })
-        }
+        // res => {
+        //   this.socket.emit('answers-posted', {
+        //     gameID: this.game.id
+        //   })
+        // }
       )
   }
 

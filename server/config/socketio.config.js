@@ -2,7 +2,7 @@ const socketio = require('socket.io');
 const Game = require('../models/game.model.js');
 const User = require('../models/user.model.js');
 
-let questionTimeOut = 10;
+let questionTimeOut = 2;
 let currentQuestion = 0;
 let startTimeOut = 1;
 let lastTimeout = 3;
@@ -69,17 +69,14 @@ module.exports = (app) => {
           });
       });
 
-      socket.on('game-calculated', function (data) {
-        console.log(`El juego ha sido calculado`);
-        setTimeout(() => {
-          Game.findById(data.gameID)
-            .then(game => {
-              io.in(gameRoom).emit('game-end', {
-                ranking: game.ranking
-              });
-            });
-        }, lastTimeout * 1000);
-      });
+      // socket.on('answers-posted', function (data) {
+      //   Game.findById(data.gameID)
+      //     .then(game => {
+      //       io.in(gameRoom).emit('game-end', {
+      //         ranking: game.ranking
+      //       });
+      //     });
+      // });
 
   });
 };

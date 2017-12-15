@@ -13,7 +13,7 @@ export class GameResolverGuard implements Resolve<Game> {
   ) {}
 
   resolve(routes: ActivatedRouteSnapshot): Observable<Game> {
-    return this.games.getGame(routes.params['id'])
+    return this.games.getGameRanking(routes.params['id'])
       .catch((err) => {
         this.router.navigate(['/home']);
         return Observable.of(err);

@@ -28,4 +28,8 @@ export class GameManagerService {
     return this.http.get(`${this.baseUrl}/game?id=${gameID}`)
   }
 
+  getGameRanking(gameID){
+    return this.http.get(`${this.baseUrl}/game/ranking?gameId=${gameID}`)
+  }
+
 }
