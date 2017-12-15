@@ -2,7 +2,7 @@ const socketio = require('socket.io');
 const Game = require('../models/game.model.js');
 const User = require('../models/user.model.js');
 
-let questionTimeOut = 2;
+let questionTimeOut = 10;
 let currentQuestion = 0;
 let startTimeOut = 1;
 let lastTimeout = 3;
